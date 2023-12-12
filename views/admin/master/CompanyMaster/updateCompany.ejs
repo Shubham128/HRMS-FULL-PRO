@@ -1,0 +1,171 @@
+<!doctype html>
+<style>
+  .ck-editor__editable_inline {
+      min-height: 150px;
+  }
+  </style>
+<%- include('../../layouts/top_header') %>
+
+  <body class="layout-fluid theme-light">
+    <div class="page">
+      <%- include('../../layouts/header') %>
+
+        <div class="page-wrapper">
+          <% if(error.length>0){ %>
+            <script>new Toasteur("top-right", 3000).error(" <%= error %>", 'Error!');</script>
+               
+            <% } %>
+        <% if(success.length>0){ %>
+                <script>new Toasteur("top-right", 3000).success(" <%= success %>", 'Success!');</script>
+                <% } %>    
+          <!-- Page header -->
+          <div class="page-header d-print-none">
+            <div class="container-xl">
+              <div class="row g-2 align-items-center">
+
+                <div class="col">
+                  <!-- Page pre-title -->
+                  <div class="page-pretitle">
+                    <a href="/dashboard">Dashboard</a>
+                  </div>
+                  <h2 class="page-title">
+                    Update  Company
+                  </h2>
+                </div>
+
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                      
+                      <a href="/CompanyList" class="btn btn-primary d-none d-sm-inline-block">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                         Back To List
+                      </a>
+                      <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#add" aria-label="Create new report">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
+                      </a>
+                    </div>
+                   </div>
+               
+
+              </div>
+            </div>
+          </div>
+          <!-- Page body -->
+
+          <div class="page-body">
+            <div class="container-xl">
+              <div class="col-12">
+                <div class="row row-cards">
+                    <div class="card">
+                          <div class="card-header">
+                            <h3 class="card-title">Update Company</h3>
+                          </div>
+                         
+                          <form  method="post" class="card" name="updateCompany"  id="updateCompany"  action="/updateCompany">
+                            <fieldset class="form-fieldset">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                      <input type="hidden" name="C_id" id="row_id" value="<%= list[0].C_id %>" >
+                                      <label class="form-label required">Company Name:</label>
+                                      <input type="text" name="C_Name" id="clf_name" class="form-control" value="<%= list[0].C_Name %>" autocomplete="off" placeholder="Enter the Company Name">
+                                    </div>
+                                    <div class="col-sm-4">
+                                      <label class="form-label required">Permisson:</label>
+                                        <select class="form-control form-select"  name="C_Permission" id="block_name">
+                                          <option value="">Select Permission</option>
+
+                                          
+                                          <option value="1">Admin</option>
+                                          <option value="3">User</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                      <label class="form-label required"> Status:</label>
+                                        <select class="form-control form-select"   name="C_Status" id="block_name">
+                                          <option value="">Select Status</option>
+                                          <option value="1">Active</option>
+                                          <option value="0">Deactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                   
+                                </div>
+                          </fieldset>
+                          <div class="card-footer text-end">
+                            <center >
+                              <a href="#" class="btn btn-warning">Cancel</a>
+                              <button type="button" class="btn btn-primary" onclick="validateform()" >Save</button>
+                           </center>
+                          </div>
+                      </form> 
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div>
+       
+          <%- include('../../layouts/footer') %>
+        </div>
+    </div>
+  </body>
+
+  <script>
+    function validateform() 
+    {
+      
+    var vo_name = $('#vo_name').val();
+    var block_name = $('#block_id').val();
+    var clf_name = $('#clf_id').val();
+   
+    if(vo_name =='')
+      {
+        new Toasteur("top-right", 3000).error("Vo name is required", 'Error!');
+        $('#vo_name').focus();
+        return false;
+      }
+   
+     if(block_name =='')
+      {
+        new Toasteur("top-right", 3000).error("Block name is required", 'Error!');
+        $('#block_id').focus();
+        return false;
+      } 
+      if(clf_name =='')
+      {
+        new Toasteur("top-right", 3000).error("Clf name is required", 'Error!');
+        $('#clf_name').focus();
+        return false;
+      }
+      
+      else
+      {
+       $("#updateCompany").submit();  
+       //$("#loader").show();  
+        return true;
+      }
+  }
+
+// block alphabets and special character //
+function isNumber(evt) {
+  evt = (evt) ? evt : window.event;
+  var charCode = (evt.which) ? evt.which : evt.keyCode;
+  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+
+    swal({
+      title: "Error",
+      text: "Only Number allowed!",
+      type: "error",
+      timer: 1500,
+      showCancelButton: true,
+      confirmButtonClass: 'btn-danger',
+    });
+    return false;
+  }
+  return true;
+}
+    
+    </script>
+    
