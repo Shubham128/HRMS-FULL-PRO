@@ -4012,7 +4012,7 @@ fieldset:disabled .btn {
   flex-grow: 1;
   text-align: center;
 }
-.nav-fill .nav-item .nav-link,
+,
 .nav-justified .nav-item .nav-link {
   width: 100%;
 }
@@ -20120,7 +20120,7 @@ textarea[cols] {
   display: block;
   height: 100%;
 }
-.nav-fill .nav-item .nav-link {
+ {
   justify-content: center;
 }
 .stars {

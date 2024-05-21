@@ -149,7 +149,7 @@ exports.ChangeCompanyDataStatus = (req, res, next) => {
     var status =  req.query.status; 
 
     console.log(status);
-    var data = "UPDATE company_master SET D_Status = "+status+" WHERE company_master.D_id ="+id;
+    var data = "UPDATE company_master SET C_Status = "+status+" WHERE company_master.C_id ="+id;
    
     config.query(data, function (error, servicedata) {
         if (error) {
@@ -176,7 +176,7 @@ exports.DeleteCompanyData = (req, res, next) => {
     }
 
         var id =  req.query.rowid; 
-        var data ="UPDATE company_master SET is_deleted = '1' WHERE company_master.D_id="+id;
+        var data ="UPDATE company_master SET is_deleted = '1' WHERE company_master.C_id="+id;
         
         config.query(data, function (error, servicedata) {
             if (error) {
@@ -255,17 +255,15 @@ exports.EditCompany = (req, res, next) => {
     if (!session.uid) {
         res.redirect("/login");
     }
-    var id =  req.query.D_id; 
+    var id =  req.query.C_id; 
 
     if(req.body.length > 0){
         console.log(req.body);
     }
     else{
 
-        var service = "SELECT D_id,D_name, C_Name, D_Status FROM company_master WHERE D_id="+id;
+        var service = "SELECT C_id, C_Name, C_Status FROM company_master WHERE C_id="+id;
 
-      
-      
         config.query(service, function (error, servicedata) {
             if (error) {
                 console.error(error.message);
@@ -314,12 +312,12 @@ exports.UpdateCompany = (req, res, next) => {
 
         
         var C_Name = "'" + formData.C_Name + "'";
-        var C_Permission = "'" + formData.C_Permission + "'";
+        
         var C_Status = "'" + formData.C_Status + "'";
         var result = formData.C_id;
         var rowid = result.trim();
         
-      var data = "UPDATE company_master SET C_Name= "+ C_Name +" ,C_Permission= "+ C_Permission +" ,C_Status= "+ C_Status +" WHERE C_id="+rowid;
+      var data = "UPDATE company_master SET C_Name= "+ C_Name +"  ,C_Status= "+ C_Status +" WHERE C_id="+rowid;
 
         config.query(data, function (error, save) {
             if (error) {
@@ -641,5 +639,801 @@ exports.UpdateDepartment = (req, res, next) => {
         const success = req.flash('success');
 
         res.render('admin/master/DepartmentMaster/updateDeaprtment', { error, success });
+    }
+};
+
+/*designation master */
+
+exports.designationData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+    const pageSize = 6;
+    const currentPage = parseInt(req.query.page) || 1;
+    const error = req.flash('error');
+    const success = req.flash('success');
+    
+    
+    var query = "SELECT dm.*,a.D_name FROM designation_master AS dm  LEFT JOIN department_master as a ON dm.department_id = a.D_id WHERE dm.is_deleted = 0 AND a.D_status = 1";
+    config.query(query, function (error, servicedata) {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        else {
+            var servicename = servicedata;    
+            
+        }
+
+       
+        paginate(query, currentPage, pageSize, function (paginatedItems, totalPage) {
+           
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            else {
+                servicename = servicedata;
+                               
+            }
+        var error = req.flash('error');
+        var success = req.flash('success');
+        res.render('admin/master/DesignationMaster/DesignationList', { error, success,list : servicename});
+        
+    });
+});
+};
+
+exports.ChangeDesignationDataStatus = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+    var id =  req.query.rowid; 
+    var status =  req.query.status; 
+
+    console.log(status);
+    var data = "UPDATE designation_master  SET status = "+status+" WHERE designation_master .id ="+id;
+   
+    config.query(data, function (error, servicedata) {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        else {
+            var servicename = servicedata;   
+            if(servicename){
+                res.send(JSON.stringify(1));
+            }else{
+                res.send(JSON.stringify(0));
+            }
+        }
+        
+    }); 
+};
+
+exports.DeleteDesignationData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+
+        var id =  req.query.rowid; 
+        var data ="UPDATE designation_master SET is_deleted = '1' WHERE designation_master.id="+id;
+        
+        config.query(data, function (error, servicedata) {
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            else {
+                var servicename = servicedata;   
+                if(servicename){
+                    res.send(JSON.stringify(1));
+                }else{
+                    res.send(JSON.stringify(0));
+                }
+            }
+            
+        }); 
+};
+
+exports.AddDesignationData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+
+    if(req.method == 'POST'){
+
+        var formData = req.body;
+
+       
+        var department_id = "'" + formData.department_id + "'";
+        var designation_name = "'" + formData.designation_name + "'";
+        var status = "'" + formData.status + "'";
+       
+       
+       
+        var data ="INSERT INTO designation_master(department_id, designation_name, status) VALUES (" + department_id + ',' + designation_name +',' +  status +")";
+
+            config.query(data, function (error, save) {
+                if (error) {
+                    console.error(error.message);
+                    return;
+                }
+                else {
+                    req.flash('success', 'employee Data Saved Succesfully');
+                    res.redirect('/designationList');
+                }
+
+            });  
+         
+
+    }
+    else{
+        var service = "SELECT D_id, D_name FROM department_master where D_status=1 and is_deleted=0";;
+      
+config.query(service, function (error, servicedata) {
+    if (error) {
+        console.error(error.message);     
+        return;
+    } else {
+        servicename = servicedata;
+        // Fetch departments
+        var departmentQuery = "SELECT D_id, D_name FROM department_master";
+        config.query(departmentQuery, function (error, departmentData) {
+            if (error) {
+                console.error(error.message);
+                return;
+            } else {
+                departmentList = departmentData;
+                // Fetch job roles
+                var jobRoleQuery = "SELECT D_id, D_name FROM department_master where D_status=1 AND is_deleted=0";
+                config.query(jobRoleQuery, function (error, jobRoleData) {
+                    if (error) {
+                        console.error(error.message);
+                        return;
+                    } else {
+                        jobRoleList = jobRoleData;
+                        const error = req.flash('error');
+                        const success = req.flash('success');
+                        res.render('admin/master/DesignationMaster/addDesignation', { error, success, servicelist: servicename, departmentList: departmentList, jobRoleList: jobRoleList });
+                    }
+                });
+            }
+        });
+    }
+});
+
+        
+            
+        
+           
+    }
+};
+
+
+
+////*  role master *\\\\\\\
+
+
+exports.roleData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+    const pageSize = 6;
+    const currentPage = parseInt(req.query.page) || 1;
+    const error = req.flash('error');
+    const success = req.flash('success');
+    
+    
+    var query = "SELECT * FROM roles  WHERE is_deleted = 0 ";
+    config.query(query, function (error, servicedata) {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        else {
+            var servicename = servicedata;    
+            
+        }
+
+       
+        paginate(query, currentPage, pageSize, function (paginatedItems, totalPage) {
+           
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            else {
+                servicename = servicedata;
+                               
+            }
+        var error = req.flash('error');
+        var success = req.flash('success');
+        res.render('admin/master/RoleMaster/RoleList', { error, success,list : servicename});
+        
+    });
+});
+};
+
+exports.ChangeRoleDataStatus = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+    var id =  req.query.rowid; 
+    var status =  req.query.status; 
+
+    console.log(status);
+    var data = "UPDATE roles  SET status = "+status+" WHERE  roles.id ="+id;
+   
+    config.query(data, function (error, servicedata) {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        else {
+            var servicename = servicedata;   
+            if(servicename){
+                res.send(JSON.stringify(1));
+            }else{
+                res.send(JSON.stringify(0));
+            }
+        }
+        
+    }); 
+};
+
+exports.DeleteRoleData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+
+        var id =  req.query.rowid; 
+        var data ="UPDATE roles SET is_deleted = '1' WHERE roles.id="+id;
+        
+        config.query(data, function (error, servicedata) {
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            else {
+                var servicename = servicedata;   
+                if(servicename){
+                    res.send(JSON.stringify(1));
+                }else{
+                    res.send(JSON.stringify(0));
+                }
+            }
+            
+        }); 
+};
+exports.AddRoleData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+
+    if(req.method == 'POST'){
+
+        var formData = req.body;
+
+       console.log(formData);
+        var role = "'" + formData.role + "'";
+        
+        var status = "'" + formData.status + "'";
+        
+       
+       
+        var data ="INSERT INTO roles(role,status) VALUES (" + role + ',' + status + ")";
+
+            config.query(data, function (error, save) {
+                if (error) {
+                    console.error(error.message);
+                    return;
+                }
+                else {
+                    req.flash('success', 'role Data Saved Succesfully');
+                    res.redirect('/RoleList');
+                }
+
+            });  
+         
+
+    }
+    else{
+        var service = masterModel.blockNameList();
+        config.query(service, function (error, servicedata) {
+            if (error) {
+                console.error(error.message);     
+                return;
+            }
+            else {
+                servicename = servicedata;
+                const error = req.flash('error');
+                const success = req.flash('success');
+                res.render('admin/master/RoleMaster/addRole', { error, success, servicelist : servicename});
+            }
+            
+        });
+           
+    }
+};
+
+
+////*  area master *\\\\\\\
+
+
+exports.areaData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+    const pageSize = 6;
+    const currentPage = parseInt(req.query.page) || 1;
+    const error = req.flash('error');
+    const success = req.flash('success');
+    
+    
+    var query = "SELECT * FROM area_master  WHERE is_deleted = 0 ";
+    config.query(query, function (error, servicedata) {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        else {
+            var servicename = servicedata;    
+            
+        }
+
+       
+        paginate(query, currentPage, pageSize, function (paginatedItems, totalPage) {
+           
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            else {
+                servicename = servicedata;
+                               
+            }
+        var error = req.flash('error');
+        var success = req.flash('success');
+        res.render('admin/master/AreaMaster/AreaList', { error, success,list : servicename});
+        
+    });
+});
+};
+
+exports.ChangeAreaDataStatus = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+    var id =  req.query.rowid; 
+    var status =  req.query.status; 
+
+    console.log(status);
+    var data = "UPDATE area_master  SET status = "+status+" WHERE  area_master.id ="+id;
+   
+    config.query(data, function (error, servicedata) {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        else {
+            var servicename = servicedata;   
+            if(servicename){
+                res.send(JSON.stringify(1));
+            }else{
+                res.send(JSON.stringify(0));
+            }
+        }
+        
+    }); 
+};
+
+exports.DeleteAreaData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+
+        var id =  req.query.rowid; 
+        var data ="UPDATE area_master  SET is_deleted = '1' WHERE area_master.id="+id;
+        
+        config.query(data, function (error, servicedata) {
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            else {
+                var servicename = servicedata;   
+                if(servicename){
+                    res.send(JSON.stringify(1));
+                }else{
+                    res.send(JSON.stringify(0));
+                }
+            }
+            
+        }); 
+};
+exports.AddAreaData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+
+    if(req.method == 'POST'){
+
+        var formData = req.body;
+
+      
+        var area = "'" + formData.area + "'";
+        var subarea = "'" + formData.subarea + "'";
+        var circle_id = "'" + formData.circle_id + "'";
+        var status = "'" + formData.status + "'";
+        
+       
+       
+        var data ="INSERT INTO area_master(area,subarea,circle_id,status) VALUES (" +area + ',' + subarea + ',' + circle_id+ ',' + status +  ")";
+
+            config.query(data, function (error, save) {
+                if (error) {
+                    console.error(error.message);
+                    return;
+                }
+                else {
+                    req.flash('success', 'AREA Data Saved Succesfully');
+                    res.redirect('/areaList');
+                }
+
+            });  
+         
+
+    }
+    else{
+        var service = masterModel.blockNameList();
+        config.query(service, function (error, servicedata) {
+            if (error) {
+                console.error(error.message);     
+                return;
+            }
+            else {
+                servicename = servicedata;
+                const error = req.flash('error');
+                const success = req.flash('success');
+                res.render('admin/master/AreaMaster/addArea', { error, success, servicelist : servicename});
+            }
+            
+        });
+           
+    }
+};
+
+
+////*  complain type master *\\\\\\\
+
+
+exports.CompalinTypeData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+    const pageSize = 6;
+    const currentPage = parseInt(req.query.page) || 1;
+    const error = req.flash('error');
+    const success = req.flash('success');
+    
+    
+    var query = "SELECT a.*,b.D_name FROM complain_master as a LEFT JOIN department_master as b ON a.department_id=b.D_id  WHERE a.is_deleted = 0  AND B.is_deleted=0";
+    config.query(query, function (error, servicedata) {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        else {
+            var servicename = servicedata;    
+            
+        }
+
+       
+        paginate(query, currentPage, pageSize, function (paginatedItems, totalPage) {
+           
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            else {
+                servicename = servicedata;
+                               
+            }
+        var error = req.flash('error');
+        var success = req.flash('success');
+        res.render('admin/master/ComplainMaster/CompalainList', { error, success,list : servicename});
+        
+    });
+});
+};
+
+exports.ChangeCompalinTypeDataStatus = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+    var id =  req.query.rowid; 
+    var status =  req.query.status; 
+
+    console.log(status);
+    var data = "UPDATE complain_master  SET status = "+status+" WHERE  complain_master.id ="+id;
+   
+    config.query(data, function (error, servicedata) {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        else {
+            var servicename = servicedata;   
+            if(servicename){
+                res.send(JSON.stringify(1));
+            }else{
+                res.send(JSON.stringify(0));
+            }
+        }
+        
+    }); 
+};
+
+exports.DeleteCompalinTypeData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+
+        var id =  req.query.rowid; 
+        var data ="UPDATE complain_master  SET is_deleted = '1' WHERE complain_master.id="+id;
+        
+        config.query(data, function (error, servicedata) {
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            else {
+                var servicename = servicedata;   
+                if(servicename){
+                    res.send(JSON.stringify(1));
+                }else{
+                    res.send(JSON.stringify(0));
+                }
+            }
+            
+        }); 
+};
+exports.AddCompalinTypeData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+
+    if(req.method == 'POST'){
+
+        var formData = req.body;
+
+      
+        var department_id = "'" + formData.department_id + "'";
+        var type= "'" + formData.type+ "'";
+       
+        var status = "'" + formData.status + "'";
+        
+       
+       
+        var data ="INSERT INTO complain_master(department_id,type,status) VALUES (" +department_id + ',' + type+ ',' + status +  ")";
+
+            config.query(data, function (error, save) {
+                if (error) {
+                    console.error(error.message);
+                    return;
+                }
+                else {
+                    req.flash('success', 'Complain Data Saved Succesfully');
+                    res.redirect('/CompalinTypeList');
+                }
+
+            });  
+         
+
+    }
+    else{
+        var service = "SELECT * FROM department_master  WHERE is_deleted = 0 AND D_status=1";
+        config.query(service, function (error, servicedata) {
+            if (error) {
+                console.error(error.message);     
+                return;
+            }
+            else {
+                servicename = servicedata;
+                const error = req.flash('error');
+                const success = req.flash('success');
+                res.render('admin/master/ComplainMaster/addComplainMaster', { error, success, servicelist : servicename});
+            }
+            
+        });
+           
+    }
+};
+
+
+////*  feedback type master *\\\\\\\
+
+
+exports.FeedbackTypeData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+    const pageSize = 6;
+    const currentPage = parseInt(req.query.page) || 1;
+    const error = req.flash('error');
+    const success = req.flash('success');
+    
+    
+    var query = "SELECT *FROM feedback_master  WHERE is_deleted = 0 ";
+    config.query(query, function (error, servicedata) {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        else {
+            var servicename = servicedata;    
+            
+        }
+
+       
+        paginate(query, currentPage, pageSize, function (paginatedItems, totalPage) {
+           
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            else {
+                servicename = servicedata;
+                               
+            }
+        var error = req.flash('error');
+        var success = req.flash('success');
+        res.render('admin/master/FeedbackMaster/FeedbackList', { error, success,list : servicename});
+        
+    });
+});
+};
+
+exports.ChangeFeedbackTypeDataStatus = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+    var id =  req.query.rowid; 
+    var status =  req.query.status; 
+
+    console.log(status);
+    var data = "UPDATE feedback_master  SET status = "+status+" WHERE  feedback_master.id ="+id;
+   
+    config.query(data, function (error, servicedata) {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        else {
+            var servicename = servicedata;   
+            if(servicename){
+                res.send(JSON.stringify(1));
+            }else{
+                res.send(JSON.stringify(0));
+            }
+        }
+        
+    }); 
+};
+
+exports.DeleteFeedbackTypeData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+
+        var id =  req.query.rowid; 
+        var data ="UPDATE feedback_master  SET is_deleted = '1' WHERE feedback_master.id="+id;
+        
+        config.query(data, function (error, servicedata) {
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            else {
+                var servicename = servicedata;   
+                if(servicename){
+                    res.send(JSON.stringify(1));
+                }else{
+                    res.send(JSON.stringify(0));
+                }
+            }
+            
+        }); 
+};
+exports.AddFeedbackTypeData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+
+    if(req.method == 'POST'){
+
+        var formData = req.body;
+
+      
+     
+        var type= "'" + formData.type+ "'";
+       
+        var status = "'" + formData.status + "'";
+        
+       
+       
+        var data ="INSERT INTO feedback_master(type,status) VALUES (" + type+ ',' + status +  ")";
+
+            config.query(data, function (error, save) {
+                if (error) {
+                    console.error(error.message);
+                    return;
+                }
+                else {
+                    req.flash('success', 'Feedback Data Saved Succesfully');
+                    res.redirect('/feedbackTypeList');
+                }
+
+            });  
+         
+
+    }
+    else{
+        var service = "SELECT * FROM feedback_master  WHERE is_deleted = 0 AND status=1";
+        config.query(service, function (error, servicedata) {
+            if (error) {
+                console.error(error.message);     
+                return;
+            }
+            else {
+                servicename = servicedata;
+                const error = req.flash('error');
+                const success = req.flash('success');
+                res.render('admin/master/FeedbackMaster/addFeedbackMaster', { error, success, servicelist : servicename});
+            }
+            
+        });
+           
     }
 };

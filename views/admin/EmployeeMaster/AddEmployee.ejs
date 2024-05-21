@@ -1,0 +1,634 @@
+<!doctype html>
+<head>
+  
+   
+    <!-- <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
+    <link href="/dist/css/comp.css" rel="stylesheet"/>
+
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css" />
+
+     <style>
+        
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+
+/* main css here */    
+.panel-heading{
+    background-color: #b93030;
+}
+.navbar .navbar-nav .nav-link {
+  color:#1D273A;
+  font-weight: 600;
+}
+
+fieldset {
+    padding: 0.35em 0.625em 0.75em;
+    margin-bottom: 5px;
+    border: 1px solid silver;
+    width: 100%;
+}
+.file-upload-wrapper {
+  margin-bottom: 10px;
+}
+
+.remove-file-upload {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 1.2em;
+  color: red;
+  text-decoration: none;
+}
+
+.remove-file-upload:hover {
+  text-decoration: none;
+}
+legend {
+    background-color: #e95612;
+    padding: 0px 5px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+    width: auto;
+    margin-bottom: 0;
+}
+.input-group-addon{
+            padding: 11px 26px 0px 14px;
+        }
+      .image-preview-input {
+        position: relative;
+        overflow: hidden;
+        margin: 0px;
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+
+    .image-preview-input input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .image-preview-input-title {
+        margin-left: 2px;
+    }
+    .popover{display: none;top: 100%;}
+    .popover.in{display: block;}
+    
+
+    .popover-title .close-preview {
+        float: right;
+        width: 25px;
+        border: 0px;
+        border-radius: 50%;
+        height: 24px;
+        line-height: normal;
+        top: -4px;
+        position: relative;
+    }
+
+    .company-form .com_info {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .company-form .com_info .col-sm-6 {
+        display: flex;
+    }
+
+    @media(max-width:767px) {
+        .company-form .com_info .col-sm-6 {
+            width: 100%
+        }
+    }
+
+    .company-form .com_info .col-sm-6 .well {
+        width: 100%;
+    }
+
+    .company-form .form-title {
+        position: relative;
+        font-size: 19px;
+        line-height: 32px;
+        font-weight: 400;
+       
+        text-transform: uppercase;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid rgb(204, 204, 204);
+
+    }
+
+    .company-form .form-title:after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0px;
+        width: 80px;
+        height: 1px;
+        background: rgb(105, 88, 88);
+    }
+
+    
+    .modal-footer .btn + .btn {
+  
+    margin-right: 17px;
+    width: 100px;
+}
+    .timepicker,
+    .ui-timepicker-list {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .inactive{
+  display: none;
+}
+.form-control{
+height: 35px;
+}
+ 
+
+.nav-fill .nav-item .nav-link {
+    justify-content: center;
+}
+.nav-fill .nav-item .nav-link, .nav-justified .nav-item .nav-link {
+    width: 100%;
+}
+
+.nav-tabs .nav-link {
+    margin-bottom: calc(-1 * var(--tblr-nav-tabs-border-width));
+    background: 0 0;
+    border: var(--tblr-nav-tabs-border-width) solid transparent;
+    border-top-left-radius: var(--tblr-nav-tabs-border-radius);
+    border-top-right-radius: var(--tblr-nav-tabs-border-radius);
+}
+/* li.active {
+  background-color: red;
+} */
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+  background-color: rgb(148, 222, 179);
+}
+
+.form-div {
+  margin-bottom: 10px;
+}
+
+
+.hidden {
+  display: none;
+}
+
+.my-div {
+  display: none;
+}
+
+.my-div.active {
+  display: block;
+
+}
+.disable-click {
+      pointer-events: none; /* Disables pointer events */
+      cursor: default; /* Changes cursor to default */
+    }
+    .password-input {
+    position: relative;
+}
+
+#togglePassword {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+     </style> 
+     
+    </head>
+    <%- include('../layouts/top_header') %>
+
+  <body class="layout-fluid theme-light">
+    <div class="page">
+      <%- include('../layouts/header') %>
+
+      
+            <div class="page-wrapper">
+              
+              <!-- Page body -->
+                  <div class="page-body">
+                      <div class="container-xl">
+                          <div class="card">
+                                  <div class="card-body">
+                                  <div class="col-md-12">
+                                    
+                                       
+                                        <div class="card-body">
+                                          <div class="tab-content">
+                                            <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
+                                              <h4>Add Employee</h4>
+                           <form action="/postEmployee"id="form1"  method="post"class="pages">
+                                        <div class="card-header s" id="s">
+                                          <ul class="nav nav-tabs card-header-tabs nav-fill disable-click  " data-bs-toggle="tabs" role="tablist">
+                                            <li class="nav-item shadow my-btn  selected " role="presentation" data-id="id1" >
+                                              <a  class="nav-link "  >Employee ID Verification</a>
+                                            </li>
+                                              </li>
+                                                <li class="nav-item shadow my-btn " data-id="id2" role="presentation">
+                                              <a  class="nav-link " > Employee  Detail </a>
+                                            </li>
+                                             <li class="nav-item shadow my-btn " data-id="id3" role="presentation">
+                                              <a  class="nav-link " > Employee login </a>
+                                            </li> 
+                                            
+                                            
+                                          </ul>
+                                        </div>
+                                        <div class="card-body my-div active"  id="id1">
+                                           
+                                           
+                                            <div class="row" >
+                                              
+                                            
+                                                <div class="col-xl-3"  >
+                                                    <div class="row">
+                                                      
+                                                        <fieldset class="form-fieldset" >
+                                                          <div class="mb-3" >
+                                                            <label class="form-label required">Employee id</label>
+                                                           <input type="text" id="vda_id" name="vda_id" class="form-control" required>
+                                                          </div>
+                                                         
+                                                         
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                             
+                                            </div>
+                                        </div>
+                                        <div class="card-body my-div active"  id="id2">
+                                           
+                                            <div class="row">
+                                                <div class="col-xl-4">
+                                                    <div class="row">
+                                                      
+                                                        <fieldset class="form-fieldset">
+                                                          <div class="mb-4">
+                                                            <label class="form-label required">Designation</label>
+                                                            <select name="designation_id" id="project_company" class="form-control" required>
+                                                              <% servicelist.forEach(function(service){ %>
+                                                                <option value="<%= service.id %>"><%= service.department_name %></option>
+                                                            <% }) %>
+                                                              </select>
+                                                          </div>
+                                                         
+                                                           <div class="mb-4">
+                                                            <label class="form-label required">Department</label>
+                                                            <select name="department_id" id="department" class="form-control" >
+                                                              <% departmentList.forEach(function(department){ %>
+                                                                <option value="<%= department.D_id %>"><%= department.D_name %></option>
+                                                            <% }) %>
+                                                                
+                                                              </select>
+                                                          </div>
+                                                          
+                                                          
+                                                          
+                                                         
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4">
+                                                    <div class="row">
+                          
+                                                        <fieldset class="form-fieldset">
+                                                           <div class="mb-4">
+                                                            <label class="form-label required">Employement type</label>
+                                                            <select name="role_id" id="country" class="form-control" >
+                                                                
+                                                              <% jobRoleList.forEach(function(jobRole){ %>
+                                                                <option value="<%= jobRole.id %>"><%= jobRole.role %></option>
+                                                            <% }) %>
+                                                              </select>
+                                                          </div>
+                                                         
+                                                           <div class="mb-4">
+                                                            <label class="form-label required">NAME</label>
+                                                            <input type="text" id="name" name="name" class="form-control" required>
+                                                          </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                                  <div class="col-xl-4">
+                                                    <div class="row">
+                                                      
+                                                        <fieldset class="form-fieldset">
+                                                         
+                                                            <div class="mb-4">
+                                                            <label class="form-label required">Email</label>
+                                                            <input type="text" id="email" name="email" class="form-control" required>
+                                                          </div>
+                                                           
+                                                          
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                                 
+         
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="card-body my-div "  id="id3">
+                                           
+                                            <div class="row">
+                                                <div class="col-xl-3">
+                                                    <div class="row">
+                                                      
+                                                        <fieldset class="form-fieldset">
+                                                          <div class="mb-3">
+                                                            <label class="form-label required">User Name</label>
+                                                           <input type="text" id="nearestAirport" name="mobile" class="form-control" requiredSS autocomplete="off">
+                                                          </div>
+                                                        
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-3">
+                                                    <div class="row">
+                                                      
+                                                        <fieldset class="form-fieldset">
+                                                           <div class="mb-3">
+                                                            <label class="form-label required">password</label>
+                                                            <input type="text" id="password" name="password" class="form-control" autocomplete="off">
+                                                            <!-- <button type="button" id="togglePassword">Show</button> -->
+                                                          </div>
+                                                         
+                                                           
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                                  <div class="col-xl-3">
+                                                    <div class="row">
+                                                      
+                                                        <fieldset class="form-fieldset">
+                                                         
+                                                            <div class="mb-3">
+                                                            <label class="form-label required">Confirm password</label>
+                                                            <input type="text" id="nearestAirport" name="a" class="form-control" required autocomplete="off">
+                                                          </div>
+                                                           
+                                                          
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                                 
+                                              
+                                            </div>
+                                           
+                                        </div>
+                                                          
+                                        <div class="card-footer text-end">
+                                              <div class="d-flex">
+                                                  <a class="btn btn-danger back-btn"  id="back">Back</a>
+                                                  <a class="btn btn-danger cancel-btn" onclick="history.back()"id="cancel">Cancel</a>
+                                                  <button type="submit" id="save"  class="btn btn-primary ms-auto submit-btn">Save</button>
+                                                  <a  class="btn btn-primary ms-auto next-btn"  id="next">Next</a>
+                                              </div>
+                                        </div>
+                           </form>
+                                     
+                                            </div>
+                                         
+                                        </div>
+                                      </div>
+                                   
+          
+                                          
+                                  </div>
+                          </div>
+                      </div>
+                   </div>
+                  </div>
+               </div>
+              </div>
+          </body>
+           
+ 
+ <%- include('../layouts/footer') %>
+   <script>
+        document.getElementById('next').addEventListener('click', function() {
+            const vdaIdInput = document.getElementById('vda_id').value;
+            const regex = /^vda\d{3}$/;
+
+            if (!regex.test(vdaIdInput)) {
+                alert('The ID must start with "vda" followed by exactly 6 digits.');
+            } else {
+                // Proceed with the next steps
+                console.log('Valid ID:', vdaIdInput);
+                // Additional code to handle valid ID can be added here
+            }
+        });
+    </script>
+              
+      <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function () {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Show' : 'Hide';
+    });
+});
+
+      </script>   
+
+<script>
+ function increaseValue() {
+  var inputField = document.getElementById('VDA');
+  var currentValue = parseInt(inputField.value);
+
+  // Increase the value by 1
+  inputField.value = currentValue + 1;
+}
+
+$(document).ready(function() {
+  var i=1;
+  $(".next-btn, .cancel-btn").show();
+  $(".back-btn, .submit-btn").hide();
+  $(".next-btn").click(function() {
+  
+   
+    var dataId = "id" + i; // Selecting the first li element initially
+    var currentDiv = $("#" + dataId);
+      console.log(dataId);
+    // Hide all buttons
+  
+
+    if (dataId === currentDiv.attr("id")) {
+        if (dataId === "id2") {
+            $(".back-btn, .submit-btn").show();
+            $(".cancel-btn, .next-btn").hide();
+           
+        } else {
+            $(".back-btn, .next-btn").show();
+            $(".cancel-btn, .submit-btn").hide();
+        }
+    }  
+   if (i == 1) {
+    i=2;
+   } else{
+    i++;
+   }
+});
+$(".back-btn").click(function() {
+  
+   
+    var dataId = "id" + i; // Selecting the first li element initially
+    var currentDiv = $("#" + dataId);
+     console.log(dataId);
+    // Hide all buttons
+    if (dataId === currentDiv.attr("id")) {
+        if (dataId === "id3") {
+            $(".back-btn, .submit-btn").show();
+            $(".cancel-btn, .next-btn").hide();
+           
+        }else if (dataId === "id1") {
+          $(".next-btn, .cancel-btn").show();
+          $(".back-btn, .submit-btn").hide();
+        }
+         else {
+            $(".back-btn, .next-btn").show();
+            $(".cancel-btn, .submit-btn").hide();
+        }
+    }  i--;
+});
+
+});
+
+
+
+$(document).ready(function() {
+  var i=1;
+
+  
+});
+
+            
+
+document.addEventListener("DOMContentLoaded", function () {
+  const lis = document.querySelectorAll("li");
+  const containers = document.querySelectorAll(".my-div");
+  let currentDiv = 0;
+
+  function showDiv(divIndex) {
+    containers.forEach(function (container, index) {
+      if (index === divIndex) {
+        container.classList.add("active");
+      } else {
+        container.classList.remove("active");
+      }
+    });
+  }
+
+  function showNextDiv() {
+    if (currentDiv < containers.length - 1) {
+      currentDiv++;
+      showDiv(currentDiv);
+    }
+  }
+
+  function showPrevDiv() {
+    if (currentDiv > 0) {
+      currentDiv--;
+      showDiv(currentDiv);
+    }
+  }
+
+  function submitForm() {
+  
+    alert("Form submitted!");
+  }
+
+  lis.forEach(function (li, index) {
+    li.addEventListener("click", function () {
+      currentDiv = index;
+      showDiv(currentDiv);
+    });
+  });
+
+  const nextButtons = document.querySelectorAll(".next-btn");
+  const backButtons = document.querySelectorAll(".back-btn");
+  const submitButton = document.querySelector(".submit");
+
+  nextButtons.forEach(function (button) {
+    button.addEventListener("click", showNextDiv);
+  });
+
+  backButtons.forEach(function (button) {
+    button.addEventListener("click", showPrevDiv);
+  });
+
+  if (submitButton) {
+    submitButton.addEventListener("click", submitForm);
+  }
+});
+const lis = document.querySelectorAll("li[data-id]");
+const divs = document.querySelectorAll("div[id]");
+let current = 0;
+
+function setActive(index) {
+  lis.forEach((li) => li.classList.remove("active"));
+  divs.forEach((div) => div.classList.remove("active"));
+
+  const li = lis[index];
+  const div = document.getElementById(li.dataset.id);
+  li.classList.add("active");
+  div.classList.add("active");
+}
+
+// Set initial active elements
+setActive(current);
+
+// Add click event listeners to each li element
+lis.forEach((li, index) => {
+  li.addEventListener("click", () => {
+    current = index;
+    setActive(current);
+  });
+});
+
+// Use querySelector instead of querySelectorAll to select a single element
+document.querySelector(".back-btn").addEventListener("click", () => {
+  if (current > 0) {
+    current--;
+    setActive(current);
+  }
+});
+
+document.querySelector(".next-btn").addEventListener("click", () => {
+  if (current < lis.length - 1) {
+    current++;
+    setActive(current);
+  }
+});
+
+
+</script>
+        </body>
+            
+          
+          

@@ -2400,12 +2400,12 @@ progress {
     -webkit-overflow-scrolling: touch;
   }
 }
-.form-label {
+. {
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
   font-weight: var(--tblr-font-weight-medium);
 }
-.col-form-label {
+.col- {
   padding-top: calc(0.4375rem + var(--tblr-border-width));
   padding-bottom: calc(0.4375rem + var(--tblr-border-width));
   margin-bottom: 0;
@@ -2413,12 +2413,12 @@ progress {
   font-weight: var(--tblr-font-weight-medium);
   line-height: 1.4285714286;
 }
-.col-form-label-lg {
+.col--lg {
   padding-top: calc(0.5rem + var(--tblr-border-width));
   padding-bottom: calc(0.5rem + var(--tblr-border-width));
   font-size: 1.25rem;
 }
-.col-form-label-sm {
+.col--sm {
   padding-top: calc(0.125rem + var(--tblr-border-width));
   padding-bottom: calc(0.125rem + var(--tblr-border-width));
   font-size: 0.75rem;
@@ -19177,21 +19177,21 @@ a.card-title:hover {
 textarea[cols] {
   height: auto;
 }
-.col-form-label,
-.form-label {
+.col-,
+. {
   display: block;
   font-weight: var(--tblr-font-weight-medium);
   font-size: 15px;
     margin-bottom: 5px;
     font-weight: 600;
 }
-.col-form-label.required:after,
-.form-label.required:after {
+.col-.required:after,
+..required:after {
   content: "*";
   margin-left: 0.25rem;
   color: #d63939;
 }
-.form-label-description {
+.-description {
   float: right;
   font-weight: var(--tblr-font-weight-normal);
   color: var(--tblr-muted);
@@ -19206,7 +19206,7 @@ textarea[cols] {
 .form-hint + .form-control {
   margin-top: 0.25rem;
 }
-.form-label + .form-hint {
+. + .form-hint {
   margin-top: -0.25rem;
 }
 .form-control + .form-hint,

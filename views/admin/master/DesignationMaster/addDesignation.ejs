@@ -1,0 +1,342 @@
+<!doctype html>
+<head>
+  
+   
+    <!-- <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
+    <link href="/dist/css/comp.css" rel="stylesheet"/>
+
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css" />
+
+     <style>
+        
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+
+/* main css here */    
+.panel-heading{
+    background-color: #b93030;
+}
+/* .navbar .navbar-nav .nav-link {
+  color:#1D273A;
+  font-weight: 600;
+} */
+
+fieldset {
+    padding: 0.35em 0.625em 0.75em;
+    margin-bottom: 5px;
+    border: 1px solid silver;
+    width: 100%;
+}
+.file-upload-wrapper {
+  margin-bottom: 10px;
+}
+
+.remove-file-upload {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 1.2em;
+  color: red;
+  text-decoration: none;
+}
+
+.remove-file-upload:hover {
+  text-decoration: none;
+}
+legend {
+    background-color: #e95612;
+    padding: 0px 5px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+    width: auto;
+    margin-bottom: 0;
+}
+.input-group-addon{
+            padding: 11px 26px 0px 14px;
+        }
+      .image-preview-input {
+        position: relative;
+        overflow: hidden;
+        margin: 0px;
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+
+    .image-preview-input input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .image-preview-input-title {
+        margin-left: 2px;
+    }
+    .popover{display: none;top: 100%;}
+    .popover.in{display: block;}
+    
+
+    .popover-title .close-preview {
+        float: right;
+        width: 25px;
+        border: 0px;
+        border-radius: 50%;
+        height: 24px;
+        line-height: normal;
+        top: -4px;
+        position: relative;
+    }
+
+    .company-form .com_info {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .company-form .com_info .col-sm-6 {
+        display: flex;
+    }
+
+    @media(max-width:767px) {
+        .company-form .com_info .col-sm-6 {
+            width: 100%
+        }
+    }
+
+    .company-form .com_info .col-sm-6 .well {
+        width: 100%;
+    }
+
+    .company-form .form-title {
+        position: relative;
+        font-size: 19px;
+        line-height: 32px;
+        font-weight: 400;
+       
+        text-transform: uppercase;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid rgb(204, 204, 204);
+
+    }
+
+    .company-form .form-title:after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0px;
+        width: 80px;
+        height: 1px;
+        background: rgb(105, 88, 88);
+    }
+
+    
+    .modal-footer .btn + .btn {
+  
+    margin-right: 17px;
+    width: 100px;
+}
+    .timepicker,
+    .ui-timepicker-list {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .inactive{
+  display: none;
+}
+.form-control{
+height: 35px;
+}
+ 
+
+.nav-fill .nav-item .nav-link {
+    justify-content: center;
+}
+.nav-fill .nav-item .nav-link, .nav-justified .nav-item .nav-link {
+    width: 100%;
+}
+
+.nav-tabs .nav-link {
+    margin-bottom: calc(-1 * var(--tblr-nav-tabs-border-width));
+    background: 0 0;
+    border: var(--tblr-nav-tabs-border-width) solid transparent;
+    border-top-left-radius: var(--tblr-nav-tabs-border-radius);
+    border-top-right-radius: var(--tblr-nav-tabs-border-radius);
+}
+/* li.active {
+  background-color: red;
+} */
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+  background-color: rgb(148, 222, 179);
+}
+
+.form-div {
+  margin-bottom: 10px;
+}
+
+
+.hidden {
+  display: none;
+}
+
+.my-div {
+  display: none;
+}
+
+.my-div.active {
+  display: block;
+
+}
+.disable-click {
+      pointer-events: none; /* Disables pointer events */
+      cursor: default; /* Changes cursor to default */
+    }
+    .password-input {
+    position: relative;
+}
+
+#togglePassword {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+     </style> 
+     
+    </head>
+    <%- include('../../layouts/top_header') %>
+
+  <body class="layout-fluid theme-light">
+    <div class="page">
+      <%- include('../../layouts/header') %>
+
+      
+            <div class="page-wrapper">
+              
+              <!-- Page body -->
+                  <div class="page-body">
+                      <div class="container-xl">
+                          <div class="card">
+                                  <div class="card-body">
+                                  <div class="col-md-12">
+                                    
+                                       
+                                        <div class="card-body">
+                                          <div class="tab-content">
+                                            <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
+                                              <h4>Add Role</h4>
+                           <form action="/addDesignation"id="addRole"  method="post"class="pages">
+                            <fieldset class="form-fieldset">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label class="form-label required">	designation name:</label>
+                                            <input type="text" name="designation_name" id="designation_name" class="form-control" autocomplete="off" placeholder="Enter the role type">
+                                          </div>
+                                        <div class="col-sm-4">
+                                            <label class="form-label required"> department name</label>
+                                            <select name="department_id" id="department_id" class="form-control" >
+                                                
+                                              <% jobRoleList.forEach(function(jobRole){ %>
+                                                <option value="<%= jobRole.D_id %>"><%= jobRole.D_name %></option>
+                                            <% }) %>
+                                              </select>
+                                        </div>
+                                        
+                                        <div class="col-sm-4">
+                                          <label class="form-label required"> Status:</label>
+                                            <select class="form-control form-select"  name="status" id="status">
+                                              <option value="">Select Status</option>
+                                              <option value="1">Active</option>
+                                              <option value="0">Deactive</option>
+                                            </select>
+                                        </div>
+
+                                        
+                                       
+                                        </div>
+
+
+                                      
+                                    </div>
+                                       
+                                    </div>
+                                </fieldset>
+                                <div class="card-footer text-end">
+                                    <center >
+                                      <a href="#" class="btn btn-warning">Cancel</a>
+                                      <button type="button" class="btn btn-primary" onclick="validateform()" >Save</button>
+                                   </center>
+                                  </div>
+                           </form>
+                                     
+                                            </div>
+                                         
+                                        </div>
+                                      </div>
+                                   
+          
+                                          
+                                  </div>
+                          </div>
+                      </div>
+                   </div>
+                  </div>
+               </div>
+              </div>
+          </body>
+           
+ 
+          <%- include('../../layouts/footer') %>
+   <script>
+        function validateform() 
+    {
+      
+    var vo_name = $('#status').val();
+    var block_name = $('#department_id').val();
+    var block_name = $('#designation_name').val();
+   
+    if(vo_name =='')
+      {
+        new Toasteur("top-right", 3000).error("status is required", 'Error!');
+        $('#status').focus();
+        return false;
+      }
+   
+     if(block_name =='')
+      {
+        new Toasteur("top-right", 3000).error("role is required", 'Error!');
+        $('#role').focus();
+        return false;
+      } 
+     
+      
+      else
+      {
+       $("#addRole").submit();  
+       //$("#loader").show();  
+        return true;
+      }
+  }
+    </script>
+              
+      
+
+
+        </body>
+            
+          
+          

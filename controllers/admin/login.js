@@ -18,7 +18,7 @@ exports.loginaction = (req, res, next) => {
     var decode_password = md5(user_password);
 
     if (user_email_address && user_password) {
-        query = `SELECT a.id,a.role_id,m.is_login_created, a.email,a.password,a.first_name,a.last_name,a.status,m.member_code,m.gender,role.role FROM admin as a LEFT JOIN members as m ON m.role_id = a.role_id LEFT JOIN roles as role ON role.id = a.id WHERE a.email = "${user_email_address}" and a.status =1`;
+        query = `SELECT a.id,a.role_id,m.is_login_created, a.email,a.password,a.name,a.status,m.member_code,m.gender,role.role FROM admin as a LEFT JOIN members as m ON m.role_id = a.role_id LEFT JOIN roles as role ON role.id = a.role_id WHERE a.email = "${user_email_address}" and a.status =1`;
 
 
         config.query(query, function (error, data) {
@@ -39,7 +39,7 @@ exports.loginaction = (req, res, next) => {
                                 //User role Name
                                 req.session.role = data[count].role;
                                 //User full name
-                                req.session.fullname = data[count].first_name;
+                                req.session.fullname = data[count].name;
                                
                                 res.redirect("/dashboard");
                             }

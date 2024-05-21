@@ -3,11 +3,11 @@ const fs = require('fs');
 
 exports.dashboard = (req, res, next) => {
 	session = req.session;
-	// if (session.uid) {
-	// 	user_id = session.uid;
-	// } else {
-	// 	res.redirect("/login");
-	// }
+	if (session.uid) {
+		user_id = session.uid;
+	} else {
+		res.redirect("/login");
+	}
 	//var from_date = formatDateymd(new Date());
 	//var to_date = formatDateymd(new Date());
 	

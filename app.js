@@ -4,7 +4,7 @@ var express 		  = require('express');
 var path 			    = require('path');
 var cookieParser 	= require('cookie-parser');
 var logger 		  	= require('morgan');
-var session 	  	= require('express-session')
+var session 	  	= require('express-session');
 let nocache       = require('node-nocache');
 const MySQLStore  = require('express-mysql-session')(session);
 var upload        = require('express-fileupload');
@@ -13,7 +13,7 @@ const options = {
   host: "localhost",
   user: "root",
   password: "",
-  database: "clf_nrlm",
+  database: "hrms_database",
   clearExpired: true,
   checkExpirationInterval: 900000,
   expiration: 86400000,

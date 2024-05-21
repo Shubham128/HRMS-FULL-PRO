@@ -1,0 +1,233 @@
+<!doctype html>
+<%- include('../../layouts/top_header') %>
+
+  <style>
+    .form-switch {
+        padding-left: 0.5rem !important;
+    }
+  .form-check-input:checked {
+    background-size: 1.4rem !important;
+    background-color: #e73801 !important;
+    width: 3rem !important;
+    height: 1.4rem !important;
+  }
+  .form-check-input{
+    background-size: 1.4rem !important;
+    width: 3rem !important;
+    height: 1.4rem !important;
+  }
+  .form-control{
+    height: auto !important;
+  }
+  
+  </style>
+  <body class="layout-fluid theme-light">
+    <div class="page">
+      <%- include('../../layouts/header') %>
+
+        <div class="page-wrapper">
+          <% if(error.length>0){ %>
+            <script>new Toasteur("top-right", 3000).error(" <%= error %>", 'Error!');</script>
+               
+            <% } %>
+
+        <% if(success.length>0){ %>
+                <script>new Toasteur("top-right", 3000).success(" <%= success %>", 'Success!');</script>
+                <% } %>    
+          <!-- Page header -->
+          <div class="page-header d-print-">
+            <div class="container-xl">
+              <div class="row g-2 align-items-center">
+
+                <div class="col">
+                  <!-- Page pre-title -->
+                 
+                  <h2 class="page-title">
+                    Area Master
+                  </h2>
+                </div>
+
+                <div class="col-auto ms-auto d-print-">
+                  <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                      
+                      <a href="/addArea" class="btn btn-primary d-sm-inline-block" >
+                        <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
+                      Add Area
+                      </a>
+                      <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#add" aria-label="Create new report">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
+                      </a>
+                    </div>
+                  </div>
+                  </div>
+               
+
+              </div>
+            </div>
+          </div>
+          <!-- Page body -->
+          <div class="page-body">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <div class="row row-cards">
+                    <div class="col-md-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">List of Area</h3>
+                        </div>
+                       
+                        <div class="table-responsive">
+                          <table id="myTable" class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                              <tr>
+                                <th>Sr No.</th>
+                                <!-- <th>Company Name</th> -->
+                                <th>Circle Id</th>
+                                <th>Area Name</th>
+                                <th>Sub Arae Name</th>
+                               
+                                <th>Status</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <%  if(list.length>0)
+                              { 
+                                var number= 1;
+                                var del = '';
+                                for (let l of list)
+                                  { 
+                                    if(l.status == 1){ 
+                                      var del = '<label class="form-check form-check-single form-switch btn-sm"><input class="form-check-input change_clf_status" type="checkbox" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Deactive" data-bs-original-title="Deactive" checked="" value="0" rel_id='+ l.id +'></label>';   
+                                       
+                                     }else{ 
+                                       var del = '<label class="form-check form-check-single form-switch btn-sm"><input class="form-check-input  change_clf_status" type="checkbox" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Active" data-bs-original-title="Active" value="1" rel_id='+ l.id +'></label>';  
+                                      } 
+                                     %>
+                                    <tr>
+                                      <td><%= number %></td>
+                                      <!-- <td><%= l.D_id %></td> -->
+                                      <!-- <td><%= l.C_Name %></td> -->
+                                      <td><%= l.circle_id %></td>
+                                      <td><%= l.area %></td>
+                                      <td><%= l.subarea %></td>
+                                      <!-- <td ><%= l._Status %></td>  -->
+                                      <td ><%- del %></td>
+                                      <td>
+                                        <a href="/editArea/?id=<%= l.id %>" class="btn btn-twitter btn-icon btn-sm" aria-label="">
+                                          <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a onclick="return checkConfirm('<%= l.id %>')" class="btn btn-danger btn-icon btn-sm" aria-label="">
+                                          <i class="fa fa-trash"></i>
+                                         </a>
+                                      </td>
+                                    </tr>
+
+                                  <% number++; } 
+                              }  %>
+                             
+                            </tbody>
+                          </table>
+                        </div>
+                        <br>
+                        
+                        </div>
+                      </div>
+                     
+                  
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <%- include('../../layouts/footer') %>
+        </div>
+    </div>
+  </body>
+
+<!--Start function on chage Time Slot status  -->
+  <script>
+
+
+
+
+function checkConfirm(id) {
+
+var rowId  = id;
+ var y = confirm('Are you sure you want delete.');
+ if(y)
+   {
+     $.ajax({
+      type: 'get', // Type of request to be send, called as method
+      url: '/deleteAreaData/?rowid='+rowId, //  Url to which the request is send
+      dataType: 'json',
+      success: function (responce) { // A function to be called if request succeeds.
+       if(responce == 1){
+         new Toasteur("top-right", 3000).success("Selected row Deleted Suceesfully", 'Success');
+         $("#rowid_"+rowId).hide();
+         setTimeout(function(){
+            window.location.reload(1);
+          }, 3000);
+       }else{
+         new Toasteur("top-right", 3000).error("Somthing Went wrong Please try again", 'Error!');
+         setTimeout(function(){
+            window.location.reload(1);
+          }, 3000);
+       }
+      }
+   });
+ }
+
+}    
+
+  $(document).on('change', '.change_clf_status', function () { 
+    var status = $(this).val();
+    var rel_id = $(this).attr('rel_id');
+
+    console.log("statusstatus");
+    console.log(status);
+    console.log(rel_id);
+
+    var success = confirm('Are you sure you want to change Area status?');
+      if(success)
+      {
+          if (status != "" && (rel_id != 0 || rel_id != "")) {
+            $.ajax({
+              type: 'get', // Type of request to be send, called as method
+              url: '/changeAreaStatus/?rowid='+rel_id+'&status='+status, //  Url to which the request is send
+              dataType: 'json',
+              success: function (responce) { // A function to be called if request succeeds.
+                if(responce == 1){
+                  new Toasteur("top-right", 3000).success("Area Status changed Suceesfully", 'Success');
+                  setTimeout(function(){
+                      window.location.reload(1);
+                    }, 3000);
+                }else{
+                  new Toasteur("top-right", 3000).error("Somthing Went wrong Please try again", 'Error!');
+                  setTimeout(function(){
+                      window.location.reload(1);
+                    }, 3000);
+                }
+              }
+            });
+
+          }
+      }  
+      else
+      {
+          return false; 
+      }
+  });
+
+
+
+  
+  
+  
+         
+  </script>
+<!--End function on chage Time Slot status  -->  
+    

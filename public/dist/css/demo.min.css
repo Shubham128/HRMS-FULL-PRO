@@ -305,7 +305,7 @@ body.no-transitions * {
     #f8fafc 50%
   );
 }
- .form-label span {
+ . span {
     color:red;
     font-size: 17px;
 

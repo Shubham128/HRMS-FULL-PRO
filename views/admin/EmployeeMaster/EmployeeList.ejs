@@ -1,5 +1,5 @@
 <!doctype html>
-<%- include('../../layouts/top_header') %>
+<%- include('../layouts/top_header') %>
 
   <style>
     .form-switch {
@@ -23,7 +23,7 @@
   </style>
   <body class="layout-fluid theme-light">
     <div class="page">
-      <%- include('../../layouts/header') %>
+      <%- include('../layouts/header') %>
 
         <div class="page-wrapper">
           <% if(error.length>0){ %>
@@ -43,7 +43,7 @@
                   <!-- Page pre-title -->
                  
                   <h2 class="page-title">
-                  Company Master
+                  Employee 
                   </h2>
                 </div>
 
@@ -51,10 +51,10 @@
                   <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
                       
-                      <a href="/addCompany" class="btn btn-primary d-sm-inline-block" >
+                      <a href="/addEmployee" class="btn btn-primary d-sm-inline-block" >
                         <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
-                      Add Company
+                      Add Employee
                       </a>
                       <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#add" aria-label="Create new report">
                         <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
@@ -76,7 +76,7 @@
                     <div class="col-md-12">
                       <div class="card">
                         <div class="card-header">
-                          <h3 class="card-title">List of Company</h3>
+                          <h3 class="card-title">List of Employee</h3>
                         </div>
                        
                         <div class="table-responsive">
@@ -84,8 +84,9 @@
                             <thead>
                               <tr>
                                 <th>Sr No.</th>
-                                <th>Company Name</th>
-                                
+                                <th>Employee Id</th>
+                                <th>Employee Name</th>
+                               
                                 
                                 <th>Status</th>
                                 <th>Action</th>
@@ -98,25 +99,26 @@
                                 var del = '';
                                 for (let l of list)
                                   { 
-                                    if(l.C_Status == 1){ 
-                                      var del = '<label class="form-check form-check-single form-switch btn-sm"><input class="form-check-input change_clf_status" type="checkbox" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Deactive" data-bs-original-title="Deactive" checked="" value="0" rel_id='+ l.C_id +'></label>';   
+                                    if(l.status == 1){ 
+                                      var del = '<label class="form-check form-check-single form-switch btn-sm"><input class="form-check-input change_clf_status" type="checkbox" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Deactive" data-bs-original-title="Deactive" checked="" value="0" rel_id='+ l.id +'></label>';   
                                        
                                      }else{ 
-                                       var del = '<label class="form-check form-check-single form-switch btn-sm"><input class="form-check-input  change_clf_status" type="checkbox" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Active" data-bs-original-title="Active" value="1" rel_id='+ l.C_id +'></label>';  
+                                       var del = '<label class="form-check form-check-single form-switch btn-sm"><input class="form-check-input  change_clf_status" type="checkbox" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Active" data-bs-original-title="Active" value="1" rel_id='+ l.id +'></label>';  
                                       } 
                                      %>
                                     <tr>
                                       <td><%= number %></td>
-                                      <td><%= l.C_Name %></td>
+                                      <td><%= l.vda_id %></td>
+                                      <td><%= l.name %></td>
                                      
 <!--                                       
-                                      <td ><%= l.C_Status %></td> -->
+                                      <td ><%= l.Emp_status %></td> -->
                                       <td ><%- del %></td>
                                       <td>
-                                        <a href="/editCompany/?C_id=<%= l.C_id  %>" class="btn btn-twitter btn-icon btn-sm" aria-label="">
+                                        <a href="/editCompany/?C_id=<%= l.id  %>" class="btn btn-twitter btn-icon btn-sm" aria-label="">
                                           <i class="fa fa-edit"></i>
                                         </a>
-                                        <a onclick="return checkConfirm('<%= l.C_id  %>')" class="btn btn-danger btn-icon btn-sm" aria-label="">
+                                        <a onclick="return checkConfirm('<%= l.id  %>')" class="btn btn-danger btn-icon btn-sm" aria-label="">
                                           <i class="fa fa-trash"></i>
                                          </a>
                                       </td>
@@ -129,37 +131,7 @@
                           </table>
                         </div>
                         <br>
-                        <center>
-                          <ul class="pagination modal-4">
-                            <% var reamin = totalPages * pageSize;  if (reamin > pageSize) { %>  
-                            <% if (currentPage > 1) { %>
-                            <li><a href="?page=<%= currentPage - 1 %>" class="prev"><i class="fa fa-chevron-left"></i> Previous</a></li>
-                            <% } %>
-                            <% for (let i = 1; i <= totalPages; i++) { %>
-                              <% if(i <= 6) { %>
-                              <li><a href="?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a></li>
-                              <% } else if(currentPage == i){ %>
-                                <li><a href="?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a></li>
-                                
-                              <% break;  } } %>
-
-                            <% if(currentPage >= 5) { if(currentPage != totalPages) { %>
-                              <% if(currentPage != totalPages - 1) { %>
-                              <li><a href="javascript:void(0)" class="">...</a></li>
-                              <% } %>
-                              <li><a href="?page=<%= totalPages %>"><%= totalPages %></a></li>
-
-                            <%  } } %>
-
-                          
-                            <% if (currentPage < totalPages) { %>
-                              <li><a href="?page=<%= currentPage + 1 %>" class="next"> Next  <i class="fa fa-chevron-right"></i></a></li> 
-                            <% } %>
-
-                            <% } %>
-                           
-                          </ul>
-                        </center>
+              
                         </div>
                       </div>
                      
@@ -169,7 +141,7 @@
               </div>
             </div>
           </div>
-          <%- include('../../layouts/footer') %>
+          <%- include('../layouts/footer') %>
         </div>
     </div>
   </body>
@@ -188,7 +160,7 @@ var rowId  = id;
    {
      $.ajax({
       type: 'get', // Type of request to be send, called as method
-      url: '/deleteCompanyData/?rowid='+rowId, //  Url to which the request is send
+      url: '/deleteEmployeeData/?rowid='+rowId, //  Url to which the request is send
       dataType: 'json',
       success: function (responce) { // A function to be called if request succeeds.
        if(responce == 1){
@@ -217,17 +189,17 @@ var rowId  = id;
     console.log(status);
     console.log(rel_id);
 
-    var success = confirm('Are you sure you want to change Company status?');
+    var success = confirm('Are you sure you want to change Employee status?');
       if(success)
       {
           if (status != "" && (rel_id != 0 || rel_id != "")) {
             $.ajax({
               type: 'get', // Type of request to be send, called as method
-              url: '/changeCompanyStatus/?rowid='+rel_id+'&status='+status, //  Url to which the request is send
+              url: '/changeEmployeeStatus/?rowid='+rel_id+'&status='+status, //  Url to which the request is send
               dataType: 'json',
               success: function (responce) { // A function to be called if request succeeds.
                 if(responce == 1){
-                  new Toasteur("top-right", 3000).success("Company Status changed Suceesfully", 'Success');
+                  new Toasteur("top-right", 3000).success("employee Status changed Suceesfully", 'Success');
                   setTimeout(function(){
                       window.location.reload(1);
                     }, 3000);

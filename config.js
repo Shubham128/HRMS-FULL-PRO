@@ -4,7 +4,7 @@ var config = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "hrms_database",
+  database: "cms_data",
   multipleStatements: true
 });
 
