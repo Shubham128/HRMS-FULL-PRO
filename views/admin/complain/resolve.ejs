@@ -1,0 +1,113 @@
+<!doctype html>
+<head>
+  
+   
+    <!-- <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
+    <link href="/dist/css/comp.css" rel="stylesheet"/>
+
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css" />
+
+    
+     <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    </head>
+    <%- include('../layouts/top_header') %>
+
+  <body class="layout-fluid theme-light">
+    <div class="page">
+      <%- include('../layouts/header') %>
+
+      
+            <div class="page-wrapper">
+              
+              <!-- Page body -->
+                  <div class="page-body">
+                      <div class="container-xl">
+                          <div class="card">
+                                  <div class="card-body">
+                                  <div class="col-md-12">
+                                    
+                                       
+                                        <div class="card-body">
+                                          <div class="tab-content">
+                                            <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
+                                              <h4>Forward Complain</h4>
+                                              <% if (error.length > 0) { %>
+                                                <div class="alert alert-danger"><%= error %></div>
+                                              <% } %>
+                                              <% if (success.length > 0) { %>
+                                                <div class="alert alert-success"><%= success %></div>
+                                              <% } %>
+                                              <form action="/resolveData" method="POST" enctype="multipart/form-data">
+                                                <div class="form-group">
+                                                  <label for="name">Name</label>
+                                                  <input type="text" class="form-control" id="name" name="name" required>
+                                                </div>
+                                                <div class="form-group">
+                                                  <label for="description">Description</label>
+                                                  <input type="text" class="form-control" id="description" name="address" required>
+                                                </div>
+                                                <div class="form-group">
+                                                  <label for="file">Choose File</label>
+                                                  <input type="file" class="form-control-file" id="file" name="file" required>
+                                                </div>
+                                                <input type="hidden" id="hiddenInput3" name="complain_id" value="<%= complaintsList[0].id %>">
+                                                <button type="submit" onclick="return checkConfirm('<%= complaintsList[0].id %>')" class="btn btn-primary">Upload</button>
+                                              </form>
+                                     
+                                            </div>
+                                         
+                                        </div>
+                                      </div>
+                                   
+          
+                                          
+                                  </div>
+                          </div>
+                      </div>
+                   </div>
+                  </div>
+               </div>
+              </div>
+          </body>
+        
+
+
+   
+        </body>
+        
+
+
+        <script>
+             function checkConfirm(id) {
+
+var rowId  = id;
+ var y = confirm('Are you sure you want resolve.');
+ if(y)
+   {
+     $.ajax({
+      type: 'get', // Type of request to be send, called as method
+      url: '/resolveDatastatus/?rowid='+rowId, //  Url to which the request is send
+      dataType: 'json',
+      success: function (responce) { // A function to be called if request succeeds.
+       if(responce == 1){
+         new Toasteur("top-right", 3000).success(" Suceesfully", 'Success');
+         $("#rowid_"+rowId).hide();
+         setTimeout(function(){
+            window.location.reload(1);
+          }, 3000);
+       }else{
+         new Toasteur("top-right", 3000).error("Somthing Went wrong Please try again", 'Error!');
+         setTimeout(function(){
+            window.location.reload(1);
+          }, 3000);
+       }
+      }
+   });
+ }
+
+}    
+
+        </script>
+          

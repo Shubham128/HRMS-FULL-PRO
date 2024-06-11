@@ -21,7 +21,7 @@
           
             <div class="d-none d-xl-block ps-2">
               <div><%= session.fullname %> </div>
-              <div class="mt-1 small text-muted"><%= session.role %></div>
+              <div class="mt-1 small text-muted"><%= session.vda_id %></div>
             </div>
           </a>
           <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -47,7 +47,7 @@
                 </span>
               </a>
             </li>
-            
+            <% if (session.role_id === 1 || session.role_id === 2) { %>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#navbar-base1" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                 <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
@@ -78,7 +78,7 @@
                     <a class="dropdown-item" href="/ComplainTypeList">
                       Complain master
                     </a>
-                    <a class="dropdown-item" href="/volist">
+                    <a class="dropdown-item" href="/addPermission">
                       permission  master
                     </a>
                     <a class="dropdown-item" href="/volist">
@@ -94,7 +94,7 @@
                 </div>
               </div>
             </li>
-            
+            <% } %>
             
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#navbar-base1" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
@@ -108,10 +108,10 @@
               <div class="dropdown-menu">
                 <div class="dropdown-menu-columns">
                   <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="/blocklist">
+                    <a class="dropdown-item" href="/addComplain">
                      Complain Form
                     </a>
-                    <a class="dropdown-item" href="/blocklist">
+                    <a class="dropdown-item" href="/addFeedback">
                       Feedback Form
                      </a>
                   </div>
@@ -131,57 +131,32 @@
               <div class="dropdown-menu">
                 <div class="dropdown-menu-columns">
                   <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="/blocklist">
+                    <a class="dropdown-item" href="/statusData">
                     Complain Status
                     </a>
-                    <a class="dropdown-item" href="/blocklist">
-                      Feedback Status
-                      </a>
-                    
+                 
                   </div>
                 </div>
               </div>
             </li>
-            
+            <% if (session.role_id === 1 || session.role_id === 2 || session.role_id === 3 || session.role_id === 4) { %>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#navbar-base1" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                 <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
                   <i class="fa fa-list-alt"></i>
               </span>
                 <span class="nav-link-title">
-                  Feedback  Form
+                  Inbox<span class="badge" id="complaint-count"></span>
                 </span>
               </a>
               <div class="dropdown-menu">
                 <div class="dropdown-menu-columns">
                   <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="/blocklist">
-                      Feedback form
-                    </a>
-                    
-                    
-                  </div>
-                </div>
-              </div>
-            </li>
-           
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#navbar-base1" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
-                <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
-                  <i class="fa fa-list-alt"></i>
-              </span>
-                <span class="nav-link-title">
-                  Inbox
-                </span>
-              </a>
-              <div class="dropdown-menu">
-                <div class="dropdown-menu-columns">
-                  <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="/blocklist">
-                      Raise Complain
+                    <a class="dropdown-item" href="/complaininbox">
+                      Complain
                     </a>
                     <a class="dropdown-item" href="/clfListData">
-                      Complain List
+                    Feedback
                     </a>
                     
                     
@@ -189,7 +164,8 @@
                 </div>
               </div>
             </li>
-            
+            <% }%>
+            <% if (session.role_id === 1 || session.role_id === 2 || session.role_id === 3 ) { %>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#navbar-base1" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                 <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
@@ -223,13 +199,14 @@
                 </div>
               </div>
             </li>
+            <% }%>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#navbar-base1" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                 <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
                   <i class="fa fa-list-alt"></i>
               </span>
                 <span class="nav-link-title">
-                 <div><%= session.fullname %> </div>
+                 <div><%= session.fullname %><div id="uid" style="display: none;"> <%= session.uid %></div> </div>
                 </span>
               </a>
               <div class="dropdown-menu">
@@ -248,3 +225,30 @@
     </div>
   </header>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const uidDiv = document.getElementById('uid');
+  const uid = uidDiv.textContent.trim();
+    // Function to fetch complaint count
+    function fetchComplaintCount() {
+      // Assuming session is defined elsewhere in your code
+     
+     // console.log(uid);
+      fetch('/countcomplain/?rowid=' + uid)
+        .then(response => response.json())
+        .then(data => {
+          const countElement = document.getElementById('complaint-count');
+          countElement.textContent = `${data.count}`;
+        })
+        .catch(error => {
+          console.error('Error fetching complaint count:', error);
+        });
+    }
+
+    // Fetch the complaint count every 10 seconds
+    setInterval(fetchComplaintCount, 600000);
+
+    // Fetch the complaint count when the page loads
+    fetchComplaintCount();
+  });
+</script>

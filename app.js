@@ -8,6 +8,7 @@ var session 	  	= require('express-session');
 let nocache       = require('node-nocache');
 const MySQLStore  = require('express-mysql-session')(session);
 var upload        = require('express-fileupload');
+
 const moment = require('moment');
 const options = {
   host: "localhost",
@@ -35,6 +36,8 @@ const store = new MySQLStore(options);
 
 var app 	= express();
 var flash 	= require('connect-flash');
+
+
 
 //session
 const oneDay = 1000 * 60 * 60 * 24;
@@ -92,8 +95,8 @@ app.use(function(err, req, res, next) {
 
 
 
-var server = app.listen(5000,'0.0.0.0',function(){
-	console.log('Server is running port:5000');
+var server = app.listen(3000,'0.0.0.0',function(){
+	console.log('Server is running port:3000');
 });
 
 module.exports = app;

@@ -1,0 +1,234 @@
+<!doctype html>
+<head>
+  
+   
+    <!-- <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
+    <!-- <link href="/dist/css/comp.css" rel="stylesheet"/> -->
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .tab-content {
+            margin-top: 20px;
+        }
+    </style>
+     <style>
+        
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+* {
+    font-family: 'Roboto', sans-serif;
+}
+.tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+
+
+     </style> 
+     
+     
+    </head>
+    <%- include('../layouts/top_header') %>
+
+  <body class="layout-fluid theme-light">
+    <div class="page">
+      <%- include('../layouts/header') %>
+
+      
+            <div class="page-wrapper">
+              
+              <!-- Page body -->
+                  <div class="page-body">
+                      <div class="container-xl">
+                          <div class="card">
+                                  <div class="card-body">
+                                  <div class="col-md-12">
+                                    
+                                       
+                                    <div class="card-body">
+                                        <div class="tab-cont">
+                                            <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
+                                                <h4>Status</h4>
+                                                <div class="container">
+                                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                        <li class="nav-item" >
+                                                            <button class="nav-link Q active" id="inbox-tab" type="button" role="tab" >Inbox</button>
+                                                        </li>
+                                                        <li class="nav-item" >
+                                                            <button class="nav-link Q" id="resolve-tab"  type="button" >Resolve</button>
+                                                        </li>
+                                                        <li class="nav-item" >
+                                                            <button class="nav-link Q" id="pending-tab" type="button" >Forward</button>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab" id="myTabContent">
+                                                        <div class="tab-content active" id="inbox" >
+                                                            <table id="myTable" class="table card-table table-vcenter text-nowrap datatable">
+                                                                <thead>
+                                                                  <tr>
+                                                                    <th>Sr No.</th>
+                                                                    <!-- <th>Company Name</th> -->
+                                                                    <th>ComplainId</th>
+                                                                    <th>Department</th>
+                                                                    <th>text</th>
+                                                                   
+                                                                    <!-- <th>Status</th> -->
+                                                                   
+                                                                  </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                  <%  if(servicelist.length>0)
+                                                                  { 
+                                                                    var number= 1;
+                                                                    var del = '';
+                                                                    for (let l of servicelist)
+                                                                      { 
+                                                                        
+                                                                         %>
+                                                                        <tr>
+                                                                          <td><%= number %></td>
+                                                                          
+                                                                          <td><%= l.id %></td>
+                                                                          <td><%= l.type %></td>
+                                                                          <td><%- l.content %></td>
+                                                                         
+                                                                         
+                                                                        </tr>
+                                    
+                                                                      <% number++; } 
+                                                                  }  %>
+                                                                 
+                                                                </tbody>
+                                                              </table>
+                                                        </div>
+                                                        <div class="tab-content " id="resolve" >
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Sr No.</th>
+                                                                        <!-- <th>Company Name</th> -->
+                                                                        <th>ComplainId</th>
+                                                                        <th>Department</th>
+                                                                        <th>text</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="resolve-data">
+                                                                    <%  if(jobRoleList.length>0)
+                                                                    { 
+                                                                      var number= 1;
+                                                                      var del = '';
+                                                                      for (let l of jobRoleList)
+                                                                        { 
+                                                                          
+                                                                           %>
+                                                                          <tr>
+                                                                            <td><%= number %></td>
+                                                                            
+                                                                            <td><%= l.id %></td>
+                                                                            <td><%= l.type %></td>
+                                                                            <td><%- l.content %></td>
+                                                                           
+                                                                           
+                                                                          </tr>
+                                      
+                                                                        <% number++; } 
+                                                                    }  %>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="tab-content" id="pending">
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Content</th>
+                <th>Name</th>
+                <th>From Department</th>
+                <th>To Department</th>
+                <th>forward_chain</th>
+          
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="pending-data">
+                                                                    <%  if(departmentList.length>0)
+                                                                    { 
+                                                                      var number= 1;
+                                                                      var del = '';
+                                                                      for (let l of departmentList)
+                                                                        { 
+                                                                          
+                                                                           %>
+                                                                          <tr>
+                                                                            <td><%- l.content %></td>
+                                                                            <td><%= l.name %></td>
+                                                                            <td><%= l.from_dept_name %></td>
+                                                                            <td><%= l.to_dept_name %></td>
+                                                                            <td><%= l.forward_chain %></td>
+                                                                          
+                                                                           
+                                                                           
+                                                                          </tr>
+                                      
+                                                                        <% number++; } 
+                                                                    }  %>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+          
+                                          
+                                  </div>
+                          </div>
+                      </div>
+                   </div>
+                  </div>
+               </div>
+              </div>
+          </body>
+           
+ 
+ <%- include('../layouts/footer') %>
+   
+        </body>
+            
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Get the tab links
+                var tabs = document.querySelectorAll('.Q');
+                // Get the tab content divs
+                var tabContents = document.querySelectorAll('.tab-content');
+                
+                // Add click event listeners to the tabs
+                tabs.forEach(function (tab) {
+                    tab.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        
+                        // Remove active class from all tabs
+                        tabs.forEach(function (item) {
+                            item.classList.remove('active');
+                        });
+                        
+                        // Add active class to the clicked tab
+                        tab.classList.add('active');
+                        
+                        // Hide all tab contents
+                        tabContents.forEach(function (content) {
+                            content.classList.remove('active');
+                        });
+                        
+                        // Show the clicked tab's content
+                        var contentId = tab.id.replace('-tab', '');
+                        document.getElementById(contentId).classList.add('active');
+                    });
+                });
+            });
+        </script>
+       

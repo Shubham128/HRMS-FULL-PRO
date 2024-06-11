@@ -1,97 +1,10 @@
 var config = require('../../config');
 var commonFunction = require('../../common-function/helper');
-var masterModel = require('../../models/admin/masterModel');
+var masterModel = require('../../models/Admin/MasterModel');
 const fs 	= 	require('fs');
 const moment = require('moment');
 
-// List OF Block Data
 
-exports.Blocklist = (req, res, next) => {
-    session = req.session;
-
-    console.log("session");
-    console.log(session);
-    //Checking Session 
-    if (!session.uid) {
-        res.redirect("/login");
-    }
-        const pageSize = 20;
-        const currentPage = parseInt(req.query.page) || 1;
-        const error = req.flash('error');
-        const success = req.flash('success');
-
-        var query = "SELECT * FROM block_list WHERE status='1' AND is_deleted='0' ORDER BY id DESC";
-        
-        var clf = "SELECT COUNT(c.block_id)as clf, b.block_name FROM clf_data as c LEFT JOIN block_list as b ON c.block_id = b.id GROUP BY c.block_id";
-        config.query(clf, function (error, clfdata) {
-            if (error) {
-                console.error(error.message);
-                return;
-            }
-            else {
-                var clflist = clfdata;   
-                
-            }
-            paginate(query, currentPage, pageSize, function (paginatedItems, totalPage) {
-            
-                if (error) {
-                    console.error(error.message);
-                    return;
-                }
-                else {
-                    paginatedItems = paginatedItems;
-                 
-                                
-                }
-            var error = req.flash('error');
-            var success = req.flash('success');
-            res.render('admin/master/list_of_blocks', { error, success, list: paginatedItems,clflist: clflist, currentPage,  totalPages: Math.ceil(totalPage / pageSize), pageSize, active: 'pooja_package_media_list' });            
-       });
-    }); 
-};
-exports.DraftPanchang = (req, res, next) => {
-    session = req.session;
-
-    console.log("session");
-    console.log(session);
-    //Checking Session 
-    if (!session.uid) {
-        res.redirect("/login");
-    }
-        const pageSize = 20;
-        const currentPage = parseInt(req.query.page) || 1;
-        const error = req.flash('error');
-        const success = req.flash('success');
-
-        var query = "SELECT * FROM block_list WHERE status='1' AND is_deleted='0' ORDER BY id DESC";
-        
-        var clf = "SELECT COUNT(c.block_id)as clf, b.block_name FROM clf_data as c LEFT JOIN block_list as b ON c.block_id = b.id GROUP BY c.block_id";
-        config.query(clf, function (error, clfdata) {
-            if (error) {
-                console.error(error.message);
-                return;
-            }
-            else {
-                var clflist = clfdata;   
-                
-            }
-            paginate(query, currentPage, pageSize, function (paginatedItems, totalPage) {
-            
-                if (error) {
-                    console.error(error.message);
-                    return;
-                }
-                else {
-                    paginatedItems = paginatedItems;
-                 
-                                
-                }
-            var error = req.flash('error');
-            var success = req.flash('success');
-            res.render('admin/master/list_of_Draft', { error, success, list: paginatedItems,clflist: clflist, currentPage,  totalPages: Math.ceil(totalPage / pageSize), pageSize, active: 'pooja_package_media_list' });            
-       });
-    }); 
-};
 
 
 ///companyMaster///
@@ -207,13 +120,13 @@ exports.AddCompanyData = (req, res, next) => {
         var formData = req.body;
 
        
-        var D_name = "'" + formData.D_name + "'";
+     
         var C_Name = "'" + formData.C_Name + "'";
-        var D_Status = "'" + formData.D_Status + "'";
+        var C_Status = "'" + formData.C_Status + "'";
         
+       var C_Permission="'" + formData.C_Permission + "'";
        
-       
-        var data ="INSERT INTO company_master(D_name, C_Name, D_Status) VALUES (" + D_name + ',' + C_Name + ',' + D_Status + ")";
+        var data ="INSERT INTO company_master( C_Name, C_Status,C_Permission) VALUES (" + C_Name + ',' + C_Status + ',' + C_Permission + ")";
 
             config.query(data, function (error, save) {
                 if (error) {
@@ -656,7 +569,7 @@ exports.designationData = (req, res, next) => {
     const success = req.flash('success');
     
     
-    var query = "SELECT dm.*,a.D_name FROM designation_master AS dm  LEFT JOIN department_master as a ON dm.department_id = a.D_id WHERE dm.is_deleted = 0 AND a.D_status = 1";
+    var query = "SELECT dm.*,d.D_name FROM designation_master AS dm  LEFT JOIN department_master as d ON dm.department_id=d.D_id  WHERE dm.is_deleted = 0";
     config.query(query, function (error, servicedata) {
         if (error) {
             console.error(error.message);
@@ -754,13 +667,13 @@ exports.AddDesignationData = (req, res, next) => {
         var formData = req.body;
 
        
-        var department_id = "'" + formData.department_id + "'";
+        var departmant_id = "'" + formData.departmant_id + "'";
         var designation_name = "'" + formData.designation_name + "'";
         var status = "'" + formData.status + "'";
        
        
        
-        var data ="INSERT INTO designation_master(department_id, designation_name, status) VALUES (" + department_id + ',' + designation_name +',' +  status +")";
+        var data ="INSERT INTO designation_master( departmant_id,designation_name, status) VALUES (" +departmant_id +','+ designation_name +',' +  status +")";
 
             config.query(data, function (error, save) {
                 if (error) {
@@ -973,7 +886,71 @@ exports.AddRoleData = (req, res, next) => {
     }
 };
 
+exports.AddPermission = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
 
+    if(req.method == 'POST'){
+
+        var formData = req.body;
+
+      console.log(formData.Role);
+        var User = "'" + formData.User + "'";
+        var Role= "'" + formData.Role+ "'";
+       
+        
+       console.log(Role);
+       console.log(User);
+        var data ="UPDATE admin SET role_id = "+Role+" WHERE id ="+User;
+
+            config.query(data, [Role, User], function (error, save) {
+                if (error) {
+                    console.error(error.message);
+                    return;
+                }
+                else {
+                    req.flash('success', ' Data Saved Succesfully');
+                    res.redirect('/dashboard');
+                }
+
+            });  
+         
+
+    }
+    else{
+        var service = "SELECT * FROM roles  WHERE is_deleted = 0 AND status=1";
+        config.query(service, function (error, servicedata) {
+            if (error) {
+                console.error(error.message);     
+                return;
+            }
+            else {
+                var service = "SELECT * FROM admin  WHERE is_deleted = 1 AND status=1";
+                config.query(service, function (error, userdata) {
+                    if (error) {
+                        console.error(error.message);     
+                        return;
+                    }
+                    else {
+                username = userdata;
+                const error = req.flash('error');
+                const success = req.flash('success');
+                res.render('admin/master/RoleMaster/Permission', { error, success, Userlist : username , servicelist : servicedata});
+            }
+            
+        
+            
+
+
+        
+        });
+       
+    }   
+    });
+} };
 ////*  area master *\\\\\\\
 
 
@@ -1110,7 +1087,7 @@ exports.AddAreaData = (req, res, next) => {
 
     }
     else{
-        var service = masterModel.blockNameList();
+        var service = "SELECT * FROM area_master  WHERE is_deleted = 0";
         config.query(service, function (error, servicedata) {
             if (error) {
                 console.error(error.message);     
@@ -1243,12 +1220,12 @@ exports.AddCompalinTypeData = (req, res, next) => {
       
         var department_id = "'" + formData.department_id + "'";
         var type= "'" + formData.type+ "'";
-       
+       var circle_id="'" + formData.circle_id+ "'";
         var status = "'" + formData.status + "'";
         
        
        
-        var data ="INSERT INTO complain_master(department_id,type,status) VALUES (" +department_id + ',' + type+ ',' + status +  ")";
+        var data ="INSERT INTO complain_master(department_id,type,status,circle_id) VALUES (" +department_id + ',' + type+ ',' + status  + ',' + circle_id +  ")";
 
             config.query(data, function (error, save) {
                 if (error) {
@@ -1257,7 +1234,7 @@ exports.AddCompalinTypeData = (req, res, next) => {
                 }
                 else {
                     req.flash('success', 'Complain Data Saved Succesfully');
-                    res.redirect('/CompalinTypeList');
+                    res.redirect('/ComplainTypeList');
                 }
 
             });  

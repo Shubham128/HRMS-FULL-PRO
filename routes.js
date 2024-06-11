@@ -2,11 +2,14 @@ var path 		= require('path');
 var express 	= require('express');
 var router 		= express.Router();
 
-var login 	            = require('./controllers/admin/login');
-var admindashboard 	    = require('./controllers/admin/dashboard');
-var master 	            = require('./controllers/admin/master');
-var employee 	        = require('./controllers/admin/employee');
-
+var login 	            = require('./controllers/admin/Login');
+var admindashboard 	    = require('./controllers/admin/Dashboard');
+var master 	            = require('./controllers/admin/Master');
+var employee 	        = require('./controllers/admin/Employee');
+var complain 	        = require('./controllers/admin/Complain');
+var status 	        = require('./controllers/admin/Status');
+var feedback 	        = require('./controllers/admin/Feedback');
+var kmzController        = require('./controllers/admin/KmzController');
 //admin get method
 router.get('/', login.login);
 router.get('/login', login.login);
@@ -16,10 +19,7 @@ router.get('/dashboard',admindashboard.dashboard);
 router.post('/loginaction',login.loginaction);
 
 
-// Block Section 
 
-router.get('/blocklist',master.Blocklist);
-router.get('/DraftPanchang',master.DraftPanchang);
 
 //CompanyMaster///
 router.get('/CompanyList',master.CompanyData);
@@ -48,7 +48,7 @@ router.get('/changeEmployeeStatus',employee.ChangeEmployeeDataStatus);
 router.get('/deleteEmployeeData',employee.DeleteEmployeeData);
 router.post('/postEmployee',employee.AddEmployeeData);
 router.get('/addEmployee',employee.AddEmployeeData);
-
+router.get('/inchargeEmployeeData',employee.inchargeEmployeeData);
 
 ////// designation   route //////
 router.get('/designationList',master.designationData);
@@ -64,8 +64,8 @@ router.get('/changeRoleStatus',master.ChangeRoleDataStatus);
 router.get('/deleteRoleData',master.DeleteRoleData);
 router.post('/addRole',master.AddRoleData);
 router.get('/addRole',master.AddRoleData);
-
-
+router.get('/addPermission',master.AddPermission);
+router.post('/addPermission',master.AddPermission);
 ////// area master  route //////
 router.get('/areaList',master.areaData);
 router.get('/changeAreaStatus',master.ChangeAreaDataStatus);
@@ -88,4 +88,30 @@ router.get('/deleteFeedbackTypeData',master.DeleteFeedbackTypeData);
 router.post('/addFeedbackType',master.AddFeedbackTypeData);
 router.get('/addFeedbackType',master.AddFeedbackTypeData);
 
+
+
+/////complain post \\\\\\
+router.post('/addComplain',complain.addComplain);
+router.get('/addComplain',complain.addComplain);
+router.get('/subareas', complain.getSubAreas);
+router.get('/complaininbox', complain.ComplainInboxData);
+router.get('/resolveData', complain.resolveData);
+router.post('/resolveData', complain.resolveData);
+router.get('/countcomplain', complain.complianCountData);
+router.get('/ForwadComplain', complain.complianForwadData);
+router.post('/ForwadComplain',complain.complianForwadData);
+router.get('/designation', complain.getDesigantion);
+router.get('/user', complain.getUser);
+router.get('/forwardsubmitData', complain.forwardData);
+router.get('/resolveDatastatus', complain.resolveDataStatus);
+router.get('/rejectData', complain.rejectDataStatus);
+router.get('/getComplainDetails', complain.touserData);
+router.get('/getComplainDetailss', complain.touserDataa);
+
+
+/////feedback post \\\\\\forwardsubmitData
+router.post('/addFeedback',feedback.addFeedback);
+router.get('/addFeedback',feedback.addFeedback);
+router.get('/statusData',status.statusData);
+router.post('/check-lat-lng', kmzController.checkLatLngInKMZ);
 module.exports = router;

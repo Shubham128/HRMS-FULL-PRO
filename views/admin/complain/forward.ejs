@@ -1,0 +1,317 @@
+<!doctype html>
+<head>
+  
+   
+    <!-- <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
+    <link href="/dist/css/comp.css" rel="stylesheet"/>
+
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css" />
+
+     <style>
+        
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+* {
+    font-family: 'Roboto', sans-serif;
+}
+/* Optional styling */
+
+#i1 {
+    display: block;
+    margin: 10px 0;
+}
+.form-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+        .form-side {
+            flex: 1;
+            min-width: 300px;
+            margin: 10px;
+        }
+
+
+
+     </style> 
+     <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    </head>
+    <%- include('../layouts/top_header') %>
+
+  <body class="layout-fluid theme-light">
+    <div class="page">
+      <%- include('../layouts/header') %>
+
+      
+            <div class="page-wrapper">
+              
+              <!-- Page body -->
+                  <div class="page-body">
+                      <div class="container-xl">
+                          <div class="card">
+                                  <div class="card-body">
+                                  <div class="col-md-12">
+                                    
+                                       
+                                        <div class="card-body">
+                                          <div class="tab-content">
+                                            <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
+                                              <h4>Forward Complain</h4>
+                           <form action="/ForwadComplain"id="form1"  method="post"class="pages">
+                            <div class="form-container">
+                                <!-- From User Side -->
+                                <div class="form-side">
+                                    <h4 class="text-center">From</h4>
+                                    <div class="form-group">
+                                        <p><strong> Name:</strong> <%= session.fullname %></p>
+                                        <p><strong>Designation:</strong><%= session.designation %> </p>
+                                        <p><strong>Department Name:</strong><%= session.department %></p>
+                                       
+                                    </div>
+                                    
+                                </div>
+                                
+                                <!-- To User Side -->
+                                <div class="form-side">
+                                    <h4 class="text-center">To</h4>
+                                    <div class="form-group">
+                                        <label for="toDepartment">Department Name</label>
+                                        <select name="to_user_department" id="department_id" class="form-control" required>
+                                            <option value="">Select Department</option>
+                                            <% for (let s of servicelist)
+                                        {
+                                      
+                                        %>
+                                        <option value="<%= s.D_id %>" >
+                                        <%= s.D_name %> 
+                                        </option>
+                                        <% } %>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group" id="sub-area-container" style="display: none;">
+                                        <label for="toUserName">Designation Name</label>
+                                        <select name="to_designation_id" id="subarea_id" class="form-control">
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="user-container" style="display: none;">
+                                        <label for="toUserName">User Name</label>
+                                        <select name="to_user_id" id="user_id" class="form-control">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="hiddenInput1" name="from_user_department" value="<%= session.departmentId %>">
+                            <input type="hidden" id="hiddenInput2" name="from_designation_id" value="<%= session.designationId %>">
+                            <input type="hidden" id="hiddenInput3" name="from_user_id" value="<%= session.uid %>">
+                            <input type="hidden" id="hiddenInput1" name="name" value="<%= jobRoleList[0].name %>">
+                            <input type="hidden" id="hiddenInput2" name="address" value="<%= jobRoleList[0].address %>">
+                            <input type="hidden" id="hiddenInput3" name="email" value="<%= jobRoleList[0].email %>">
+                            <input type="hidden" id="hiddenInput1" name="mobile" value="<%= jobRoleList[0].name %>">
+                            <input type="hidden" id="hiddenInput2" name="content" value="<%= jobRoleList[0].content %>">
+                            <input type="hidden" id="hiddenInput3" name="complain_id" value="<%= jobRoleList[0].complain_id %>">
+                            <input type="hidden" id="hiddenInput1" name="area_id" value="<%= jobRoleList[0].area_id %>">
+                            <input type="hidden" id="hiddenInput2" name="circle_id" value="<%= jobRoleList[0].circle_id %>">
+                            <input type="hidden" id="hiddenInput3" name="parent_id" value="<%= jobRoleList[0].id %>">
+                            
+                            <div class="text-center mt-4">
+                                <button type="submit"  onclick="return checkConfirm('<%= jobRoleList[0].id %>')" class="btn btn-primary">Send</button>
+                            </div>
+                                    
+                           </form>
+                                     
+                                            </div>
+                                         
+                                        </div>
+                                      </div>
+                                   
+          
+                                          
+                                  </div>
+                          </div>
+                      </div>
+                   </div>
+                  </div>
+               </div>
+              </div>
+          </body>
+           
+ 
+ <%- include('../layouts/footer') %>
+ <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+        const areaSelect = document.getElementById('subarea_id');
+        const subAreaContainer = document.getElementById('user-container');
+        const subAreaSelect = document.getElementById('user_id');
+
+        areaSelect.addEventListener('change', function() {
+            const areaId = areaSelect.value;
+              console.log(areaId);
+            if (areaId) {
+                fetch('/user/?rowid='+areaId)
+                    .then(response => response.json())
+                    .then(data => {
+                        subAreaSelect.innerHTML = '<option value="">Select User</option>';
+                        data.forEach(subArea => {
+                            const option = document.createElement('option');
+                            option.value = subArea.id;
+                            option.textContent = subArea.name;
+                            subAreaSelect.appendChild(option);
+                        });
+                        subAreaContainer.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user:', error);
+                        subAreaContainer.style.display = 'none';
+                    });
+            } else {
+                subAreaContainer.style.display = 'none';
+            }
+        });
+    });
+
+     document.addEventListener('DOMContentLoaded', function() {
+        const areaSelect = document.getElementById('department_id');
+        const subAreaContainer = document.getElementById('sub-area-container');
+        const subAreaSelect = document.getElementById('subarea_id');
+
+        areaSelect.addEventListener('change', function() {
+            const areaId = areaSelect.value;
+              console.log(areaId);
+            if (areaId) {
+                fetch('/designation/?rowid='+areaId)
+                    .then(response => response.json())
+                    .then(data => {
+                        subAreaSelect.innerHTML = '<option value="">Select Designation</option>';
+                        data.forEach(subArea => {
+                            const option = document.createElement('option');
+                            option.value = subArea.id;
+                            option.textContent = subArea.designation_name;
+                            subAreaSelect.appendChild(option);
+                        });
+                        subAreaContainer.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error fetching department:', error);
+                        subAreaContainer.style.display = 'none';
+                    });
+            } else {
+                subAreaContainer.style.display = 'none';
+            }
+        });
+    });
+    function checkConfirm(id) {
+
+var rowId  = id;
+ var y = confirm('Are you sure you want send.');
+ if(y)
+   {
+     $.ajax({
+      type: 'get', // Type of request to be send, called as method
+      url: '/forwardsubmitData/?rowid='+rowId, //  Url to which the request is send
+      dataType: 'json',
+      success: function (responce) { // A function to be called if request succeeds.
+       if(responce == 1){
+         new Toasteur("top-right", 3000).success(" Suceesfully", 'Success');
+         $("#rowid_"+rowId).hide();
+         setTimeout(function(){
+            window.location.reload(1);
+          }, 3000);
+       }else{
+         new Toasteur("top-right", 3000).error("Somthing Went wrong Please try again", 'Error!');
+         setTimeout(function(){
+            window.location.reload(1);
+          }, 3000);
+       }
+      }
+   });
+ }
+
+}    
+
+function validateform() 
+    {
+      
+    var vo_name = $('#department_id').val();
+   
+    if(vo_name =='')
+      {
+        new Toasteur("top-right", 3000).error("department name is required", 'Error!');
+        $('#department_id').focus();
+        return false;
+      }
+   
+     
+      
+      else
+      {
+       $("#form1").submit();  
+       //$("#loader").show();  
+        return true;
+      }
+  }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const areaSelect = document.getElementById('area_id');
+        const subAreaContainer = document.getElementById('sub-area-container');
+        const subAreaSelect = document.getElementById('subarea_id');
+
+        areaSelect.addEventListener('change', function() {
+            const areaId = areaSelect.value;
+              console.log(areaId);
+            if (areaId) {
+                fetch('/subareas/?rowid='+areaId)
+                    .then(response => response.json())
+                    .then(data => {
+                        subAreaSelect.innerHTML = '';
+                        data.forEach(subArea => {
+                            const option = document.createElement('option');
+                            option.value = subArea.id;
+                            option.textContent = subArea.subarea;
+                            subAreaSelect.appendChild(option);
+                        });
+                        subAreaContainer.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error fetching sub-areas:', error);
+                        subAreaContainer.style.display = 'none';
+                    });
+            } else {
+                subAreaContainer.style.display = 'none';
+            }
+        });
+    });
+</script>
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const complainSelect = document.getElementById('complain_id');
+        const areaDiv = document.getElementById('2');
+
+        complainSelect.addEventListener('change', function() {
+            // Find the selected option text
+            const selectedText = complainSelect.options[complainSelect.selectedIndex].text;
+            
+            // Check if the selected text is 'Test'
+            if (selectedText === 'illegal') {
+                areaDiv.style.display = 'block';
+            } else {
+                areaDiv.style.display = 'none';
+            }
+        });
+    });
+</script>
+ <script>
+CKEDITOR.replace('editor');
+
+</script>
+   
+        </body>
+            
+          
+          

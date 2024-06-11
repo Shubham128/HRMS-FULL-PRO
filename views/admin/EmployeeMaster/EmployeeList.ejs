@@ -121,6 +121,9 @@
                                         <a onclick="return checkConfirm('<%= l.id  %>')" class="btn btn-danger btn-icon btn-sm" aria-label="">
                                           <i class="fa fa-trash"></i>
                                          </a>
+                                         <a onclick="return inchargeConfirm('<%= l.id  %>')" class="btn btn-danger btn-icon btn-sm" aria-label="">
+                                          <i class="fa fa-address-book"></i>
+                                         </a>
                                       </td>
                                     </tr>
 
@@ -149,7 +152,34 @@
 <!--Start function on chage Time Slot status  -->
   <script>
 
+function inchargeConfirm(id) {
 
+var rowId  = id;
+ var y = confirm('Are you sure you want incharge.');
+ if(y)
+   {
+     $.ajax({
+      type: 'get', // Type of request to be send, called as method
+      url: '/inchargeEmployeeData/?rowid='+rowId, //  Url to which the request is send
+      dataType: 'json',
+      success: function (responce) { // A function to be called if request succeeds.
+       if(responce == 1){
+         new Toasteur("top-right", 3000).success("Selected row incharge Suceesfully", 'Success');
+         $("#rowid_"+rowId).hide();
+         setTimeout(function(){
+            window.location.reload(1);
+          }, 3000);
+       }else{
+         new Toasteur("top-right", 3000).error("Somthing Went wrong Please try again", 'Error!');
+         setTimeout(function(){
+            window.location.reload(1);
+          }, 3000);
+       }
+      }
+   });
+ }
+
+}    
 
 
 function checkConfirm(id) {

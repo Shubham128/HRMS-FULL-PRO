@@ -70,9 +70,9 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <label class="form-label required">Department name:</label>
-                                          <select class="form-control form-select"  name="Department_id" id="Department_id">
+                                          <select class="form-control form-select"  name="department_id" id="department_id">
                                             <option value="">Select Department</option>
-                                            >
+                                            
                                             <% for (let s of servicelist)
                                                 {
                                               
@@ -81,6 +81,27 @@
                                                 <%= s.D_name %> 
                                                 </option>
                                                 <% } %>
+                                          </select>
+                                      </div>
+                                      <div class="col-sm-4">
+                                        <label class="form-label required">Circle:</label>
+                                          <select class="form-control form-select"  name="circle_id" id="department_id">
+                                            <option value="">Select circle</option>
+                                               
+                                            <option value="1">A1</option>
+                                            <option value="2">P2</option>
+                                            <option value="3">C3</option>
+                                            <option value="4">H4</option>
+                                            <option value="5">VC5</option>
+                                            <option value="6">B6</option>
+                                            <option value="7">H7</option>
+                                            <option value="8">O8</option>
+
+                                            <option value="9">Z1</option>
+                                          <option value="10">Z2</option>
+                                          <option value="11">Z3</option>
+                                          <option value="12">Z4</option>
+                                          <option value="13">Z5</option>
                                           </select>
                                       </div>
                                     <div class="col-sm-4">
@@ -122,14 +143,14 @@
     function validateform() 
     {
       
-    var vo_name = $('#Department_id').val();
+    var vo_name = $('#department_id').val();
     var block_name = $('#type').val();
  
     var status_name = $('#status').val();
     if(vo_name =='')
       {
         new Toasteur("top-right", 3000).error("department name is required", 'Error!');
-        $('#Department_id').focus();
+        $('#department_id').focus();
         return false;
       }
    
@@ -139,7 +160,7 @@
         $('#type').focus();
         return false;
       } 
-      if(clf_name =='')
+      if(status_name =='')
       {
         new Toasteur("top-right", 3000).error("status name is required", 'Error!');
         $('#status').focus();

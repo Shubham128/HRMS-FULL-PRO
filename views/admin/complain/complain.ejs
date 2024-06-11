@@ -1,0 +1,459 @@
+<!doctype html>
+<head>
+  
+   
+    <!-- <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
+    <link href="/dist/css/comp.css" rel="stylesheet"/>
+
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css" />
+
+     <style>
+        
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+* {
+    font-family: 'Roboto', sans-serif;
+}
+/* Optional styling */
+
+#i1 {
+    display: block;
+    margin: 10px 0;
+}
+
+
+
+
+     </style> 
+     <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    </head>
+    <%- include('../layouts/top_header') %>
+
+  <body class="layout-fluid theme-light">
+    <div class="page">
+      <%- include('../layouts/header') %>
+
+      
+            <div class="page-wrapper">
+              
+              <!-- Page body -->
+                  <div class="page-body">
+                      <div class="container-xl">
+                          <div class="card">
+                                  <div class="card-body">
+                                  <div class="col-md-12">
+                                    
+                                       
+                                        <div class="card-body">
+                                          <div class="tab-content">
+                                            <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
+                                              <h4>Raise Complain</h4>
+                           <form action="/addComplain"id="form1"  method="post"class="pages">
+                            <div class="card-body my-div active"  id="id2">
+                                           
+                                <div class="row">
+                                    <div class="col-xl-4">
+                                        <div class="row">
+                                          
+                                            <fieldset class="form-fieldset">
+                                              <div class="mb-4">
+                                               
+                                                    <label class="form-label required">NAME</label>
+                                                    <input type="text" id="name" name="name" class="form-control" required>
+                                                
+                                              </div>
+                                             
+                                              <div class="mb-4">
+                                                <label class="form-label required">Address</label>
+                                                <input type="text" id="address" name="address" class="form-control" required>
+                                              </div>
+                                              
+                                              
+                                              
+                                             
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <div class="row">
+              
+                                            <fieldset class="form-fieldset">
+                                                <div class="mb-4">
+                                                    <label class="form-label required">Mobile</label>
+                                                    <input type="text" id="mobile" name="mobile" class="form-control" required>
+                                                  </div>
+                                              
+                                             
+                                            
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                      <div class="col-xl-4">
+                                        <div class="row">
+                                          
+                                            <fieldset class="form-fieldset">
+                                             
+                                                <div class="mb-4">
+                                                <label class="form-label required">Email</label>
+                                                <input type="text" id="email" name="email" class="form-control" required>
+                                              </div>
+                                               
+                                              
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                     
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-4">
+                                        <div class="row">
+                                          
+                                            <fieldset class="form-fieldset" id="f1">
+                                                <div class="mb-4">
+                                                    <label class="form-label required">Complain Type</label>
+                                                    <select name="complain_id" id="complain_id" class="form-control" required>
+                                                      
+                                                    <% for (let s of servicelist)
+                                                    {
+                                                  
+                                                    %>
+                                                    <option value="<%= s.id %>" >
+                                                    <%= s.type %> 
+                                                    </option>
+                                                    <% } %>
+                                                      </select>
+                                                  </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4" id="2" style="display: none;">
+                                        <div class="row">
+              
+                                            <fieldset class="form-fieldset">
+                                                <div class="mb-4">
+                                                    <label class="form-label required">Zone</label>
+                                                    <select name="area_id" id="area_id" class="form-control" required>
+                                                   
+                                                    <% for (let s of jobRoleList)
+                                                    {
+                                                  
+                                                    %>
+                                                    <option value="<%= s.circle_id %>" >
+                                                    <%= s.area %> 
+                                                    </option>
+                                                    <% } %>
+                                                    
+                                                      </select>
+                                                  </div>
+                                             
+                                            
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                      <div class="col-xl-4" id="sub-area-container" style="display: none;">
+                                        <div class="row">
+                                          
+                                            <fieldset class="form-fieldset" >
+                                             
+                                                <div class="mb-4">
+                                                    <label class="form-label required"> WARD</label>
+                                                    <select name="subarea_id" id="subarea_id" class="form-control" required>
+                                                    
+
+                                                    <!-- <% for (let s of jobRoleList)
+                                                    {
+                                                  
+                                                    %>
+                                                    <option value="<%= s.id %>" >
+                                                    <%= s.subarea %> 
+                                                    </option>
+                                                    <% } %> -->
+                                                      </select>
+                                                  </div>
+                                              </div>
+                                               
+                                              
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                     
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="row">
+                                          
+                                            <fieldset class="form-fieldset">
+                                                <div class="mb-4">
+                                                    <label class="form-label ">Other</label>
+                                                   
+                                                        <textarea name="content" id="editor"></textarea>
+                                                     
+                                                  </div>
+                                                  <div id="complain-details">
+                                                    <!-- Complain details will be displayed here -->
+                                                  </div>
+                                                  <input type="hidden" id="lat" name="lat" >
+                                                  <input type="hidden" id="lng" name="lat" >
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                                <center >
+                                    <a href="#" class="btn btn-warning">Cancel</a>
+                                    <button type="button"  id="myButton" class="btn btn-primary" onclick="validateform()" >Save</button>
+                                 </center>
+                              </div>
+                                    
+                           </form>
+                           <div id="result"></div> 
+                                            </div>
+                                           
+                                        </div>
+                                      </div>
+                                   
+          
+                                          
+                                  </div>
+                          </div>
+                      </div>
+                   </div>
+                  </div>
+               </div>
+              </div>
+          </body>
+           
+ 
+ <%- include('../layouts/footer') %>
+ <script>
+    CKEDITOR.replace('editor');
+    
+// window.onload = function() {
+//     autoClickTimeout = setTimeout(() => {
+//         document.getElementById('myButton').click();
+//         alert('Button was clicked automatically!');
+//     }, 12000); // 120000 milliseconds = 2 minutes
+// }
+document.addEventListener('DOMContentLoaded', function() {
+    const areaSelect = document.getElementById('complain_id');
+    const subAreaContainer = document.getElementById('complain-details');
+    
+
+    areaSelect.addEventListener('change', function() {
+        const areaId = areaSelect.value;
+        console.log(areaId);
+
+        if (areaId) {
+            fetch('/getComplainDetails/?rowid=' + areaId)
+                .then(response => response.json())
+                .then(data => {
+                    subAreaContainer.innerHTML = '';
+
+                    data.forEach(subArea => {
+                        // Create and configure the first input field
+                        var a =subArea.id;
+                        var b =subArea.department_id;
+                       
+                        const input1 = document.createElement('input');
+                        input1.type = 'hidden';
+                        input1.name = `to_user_id`;
+                        input1.value = a;
+                      
+                        subAreaContainer.appendChild(input1);
+
+                        // Create and configure the second input field
+                        const input2 = document.createElement('input');
+                        input2.type = 'hidden';
+                        input2.name = `to_user_department`;
+                        input2.value = b;
+                        subAreaContainer.appendChild(input2);
+                      
+                        
+                    });
+
+                   
+                })
+                .catch(error => {
+                    console.error('Error fetching sub-areas:', error);
+                });
+        } else {
+            console.log("No area selected.");
+        }
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const areaSelect = document.getElementById('area_id');
+    const subAreaContainer = document.getElementById('complain-details');
+    
+
+    areaSelect.addEventListener('change', function() {
+        const areaId = areaSelect.value;
+        console.log(areaId);
+
+        if (areaId) {
+            fetch('/getComplainDetailss/?rowid=' + areaId)
+                .then(response => response.json())
+                .then(data => {
+                    subAreaContainer.innerHTML = '';
+
+                    data.forEach(subArea => {
+                        // Create and configure the first input field
+                        var a =subArea.id;
+                        var b =subArea.department_id;
+                       
+                        const input1 = document.createElement('input');
+                        input1.type = 'hidden';
+                        input1.name = `to_user_id`;
+                        input1.value = a;
+                      
+                        subAreaContainer.appendChild(input1);
+
+                        // Create and configure the second input field
+                        const input2 = document.createElement('input');
+                        input2.type = 'hidden';
+                        input2.name = `to_user_department`;
+                        input2.value = b;
+                        subAreaContainer.appendChild(input2);
+                      
+                        
+                    });
+
+                   
+                })
+                .catch(error => {
+                    console.error('Error fetching sub-areas:', error);
+                });
+        } else {
+            console.log("No area selected.");
+        }
+    });
+});
+
+
+    
+    </script>
+ <script>
+
+function validateform() 
+    {
+      
+    var vo_name = $('#name').val();
+   
+    if(vo_name =='')
+      {
+        new Toasteur("top-right", 3000).error("department name is required", 'Error!');
+        $('#name').focus();
+        return false;
+      }
+   
+     
+      
+      else
+      {
+       $("#form1").submit();  
+       //$("#loader").show();  
+        return true;
+      }
+  }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const areaSelect = document.getElementById('area_id');
+        const subAreaContainer = document.getElementById('sub-area-container');
+        const subAreaSelect = document.getElementById('subarea_id');
+
+        areaSelect.addEventListener('change', function() {
+            const areaId = areaSelect.value;
+              console.log(areaId);
+            if (areaId) {
+                fetch('/subareas/?rowid='+areaId)
+                    .then(response => response.json())
+                    .then(data => {
+                        subAreaSelect.innerHTML = '';
+                        data.forEach(subArea => {
+                            const option = document.createElement('option');
+                            option.value = subArea.id;
+                            option.textContent = subArea.subarea;
+                            subAreaSelect.appendChild(option);
+                        });
+                        subAreaContainer.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error fetching sub-areas:', error);
+                        subAreaContainer.style.display = 'none';
+                    });
+            } else {
+                subAreaContainer.style.display = 'none';
+            }
+        });
+    });
+</script>
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const complainSelect = document.getElementById('complain_id');
+        const areaDiv = document.getElementById('2');
+       
+
+// Function to get the current location and check KMZ file
+function getCurrentLocationAndCheck() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            document.getElementById('lat').value = position.coords.latitude;
+            document.getElementById('lng').value = position.coords.longitude;
+
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+console.log("sdds");
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/check-lat-lng', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                console.log("sds");
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    console.log("syy");
+                    if (response.filename) {
+                        console.log("dd");
+                        document.getElementById('result').textContent = 'File found: ' + response.filename;
+                    } else {
+                        document.getElementById('result').textContent = 'Not found';
+                    }
+                } else if (xhr.readyState === 4) {
+                    document.getElementById('result').textContent = 'Error: ' + xhr.status;
+                    console.log("sss");
+                }
+            };
+            xhr.send('lat=' + encodeURIComponent(lat) + '&lng=' + encodeURIComponent(lng));
+        }, function(error) {
+            document.getElementById('result').textContent = 'Error getting location: ' + error.message;
+        });
+    } else {
+        document.getElementById('result').textContent = 'Geolocation is not supported by this browser.';
+    }
+}
+
+        complainSelect.addEventListener('change', function() {
+            // Find the selected option text
+            const selectedText = complainSelect.options[complainSelect.selectedIndex].text;
+            
+            // Check if the selected text is 'Test'
+            if (selectedText === 'illegal') {
+                areaDiv.style.display = 'block';
+                console.log("hgs");
+                    getCurrentLocationAndCheck();
+
+            } else {
+                areaDiv.style.display = 'none';
+                
+            }
+        });
+    });
+</script>
+
+
+
+        </body>
+            
+          
+          

@@ -1,6 +1,6 @@
 var config = require('../../config');
 var commonFunction = require('../../common-function/helper');
-var masterModel = require('../../models/admin/masterModel');
+var masterModel = require('../../models/Admin/MasterModel');
 const fs 	= 	require('fs');
 const moment = require('moment');
 const crypto = require('crypto');
@@ -17,7 +17,7 @@ exports.employeeData = (req, res, next) => {
     const success = req.flash('success');
     
     
-    var query = " SELECT * FROM admin WHERE is_deleted=0";
+    var query = " SELECT * FROM admin WHERE is_deleted=1";
     config.query(query, function (error, servicedata) {
         if (error) {
             console.error(error.message);
@@ -103,6 +103,33 @@ exports.DeleteEmployeeData = (req, res, next) => {
         }); 
 };
 
+exports.inchargeEmployeeData = (req, res, next) => {
+    session = req.session;
+    //Checking Session 
+    if (!session.uid) {
+        res.redirect("/login");
+    }
+
+        var id =  req.query.rowid; 
+        var data ="UPDATE admin SET is_incharge= '1' WHERE admin.id="+id;
+        
+        config.query(data, function (error, servicedata) {
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            else {
+                var servicename = servicedata;   
+                if(servicename){
+                    res.send(JSON.stringify(1));
+                }else{
+                    res.send(JSON.stringify(0));
+                }
+            }
+            
+        }); 
+};
+
 exports.AddEmployeeData = (req, res, next) => {
     session = req.session;
     //Checking Session 
@@ -167,11 +194,20 @@ config.query(service, function (error, servicedata) {
                         return;
                     } else {
                         jobRoleList = jobRoleData;
+                        var areaQuery = "SELECT * FROM area_master GROUP BY area";
+                config.query(areaQuery, function (error, areaQueryData) {
+                    if (error) {
+                        console.error(error.message);
+                        return;
+                    } else {
+                        areaList = areaQueryData;
                         const error = req.flash('error');
                         const success = req.flash('success');
-                        res.render('admin/EmployeeMaster/AddEmployee', { error, success, servicelist: servicename, departmentList: departmentList, jobRoleList: jobRoleList });
+                        res.render('admin/EmployeeMaster/AddEmployee', { error, success, servicelist: servicename, departmentList: departmentList, jobRoleList: jobRoleList, areaListData:areaList});
                     }
                 });
+            }
+            });
             }
         });
     }

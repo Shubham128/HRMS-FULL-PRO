@@ -241,14 +241,14 @@ height: 35px;
                            <form action="/postEmployee"id="form1"  method="post"class="pages">
                                         <div class="card-header s" id="s">
                                           <ul class="nav nav-tabs card-header-tabs nav-fill disable-click  " data-bs-toggle="tabs" role="tablist">
-                                            <li class="nav-item shadow my-btn  selected " role="presentation" data-id="id1" >
-                                              <a  class="nav-link "  >Employee ID Verification</a>
+                                            <li class="nav-item shadow my-btn li selected " role="presentation" data-id="id1" >
+                                              <a  class="nav-link  "  >Employee ID Verification</a>
                                             </li>
                                               </li>
-                                                <li class="nav-item shadow my-btn " data-id="id2" role="presentation">
+                                                <li class="nav-item shadow my-btn li " data-id="id2" role="presentation">
                                               <a  class="nav-link " > Employee  Detail </a>
                                             </li>
-                                             <li class="nav-item shadow my-btn " data-id="id3" role="presentation">
+                                             <li class="nav-item shadow my-btn li " data-id="id3" role="presentation">
                                               <a  class="nav-link " > Employee login </a>
                                             </li> 
                                             
@@ -288,7 +288,7 @@ height: 35px;
                                                             <label class="form-label required">Designation</label>
                                                             <select name="designation_id" id="project_company" class="form-control" required>
                                                               <% servicelist.forEach(function(service){ %>
-                                                                <option value="<%= service.id %>"><%= service.department_name %></option>
+                                                                <option value="<%= service.id %>"><%= service.designation_name %></option>
                                                             <% }) %>
                                                               </select>
                                                           </div>
@@ -327,6 +327,8 @@ height: 35px;
                                                             <label class="form-label required">NAME</label>
                                                             <input type="text" id="name" name="name" class="form-control" required>
                                                           </div>
+
+                                                          
                                                         </fieldset>
                                                     </div>
                                                 </div>
@@ -338,6 +340,27 @@ height: 35px;
                                                             <div class="mb-4">
                                                             <label class="form-label required">Email</label>
                                                             <input type="text" id="email" name="email" class="form-control" required>
+                                                          </div>
+                                                          <div class="mb-4">
+                                                            <label class="form-label required">Area</label>
+                                                            <select name="circle_id" id="country" class="form-control" >
+                                                                
+                                                                <option value="1">A1</option>
+                                                                <option value="2">P2</option>
+                                                                <option value="3">C3</option>
+                                                                <option value="4">H4</option>
+                                                                <option value="5">VC5</option>
+                                                                <option value="6">B6</option>
+                                                                <option value="7">H7</option>
+                                                                <option value="8">O8</option>
+                                                                <option value="">Select Id</option>
+                                          <option value="9">Z1</option>
+                                          <option value="10">Z2</option>
+                                          <option value="11">Z3</option>
+                                          <option value="12">Z4</option>
+                                          <option value="13">Z5</option>
+
+                                                              </select>
                                                           </div>
                                                            
                                                           
@@ -426,21 +449,7 @@ height: 35px;
            
  
  <%- include('../layouts/footer') %>
-   <script>
-        document.getElementById('next').addEventListener('click', function() {
-            const vdaIdInput = document.getElementById('vda_id').value;
-            const regex = /^vda\d{3}$/;
-
-            if (!regex.test(vdaIdInput)) {
-                alert('The ID must start with "vda" followed by exactly 6 digits.');
-            } else {
-                // Proceed with the next steps
-                console.log('Valid ID:', vdaIdInput);
-                // Additional code to handle valid ID can be added here
-            }
-        });
-    </script>
-              
+   
       <script>
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -530,7 +539,7 @@ $(document).ready(function() {
             
 
 document.addEventListener("DOMContentLoaded", function () {
-  const lis = document.querySelectorAll("li");
+  const lis = document.querySelectorAll(".li");
   const containers = document.querySelectorAll(".my-div");
   let currentDiv = 0;
 
@@ -586,7 +595,7 @@ document.addEventListener("DOMContentLoaded", function () {
     submitButton.addEventListener("click", submitForm);
   }
 });
-const lis = document.querySelectorAll("li[data-id]");
+const lis = document.querySelectorAll(".li[data-id]");
 const divs = document.querySelectorAll("div[id]");
 let current = 0;
 
